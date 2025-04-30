@@ -1,8 +1,9 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
+import prettier from 'eslint-plugin-prettier';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -16,31 +17,32 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      prettier: prettier,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
+      'prettier/prettier': 'error',
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      quotes: ['error', 'single'],
+      indent: ['error', 2],
+      curly: ['error', 'all'],
+      'max-len': ['error', { code: 120 }],
+      'no-magic-numbers': ['warn', { ignoreArrayIndexes: true }],
+      'sort-imports': [
+        'error',
+        {
+          ignoreCase: false,
+          memberSyntaxSortOrder: ['none', 'single', 'multiple', 'all'],
+        },
       ],
-       'quotes': ['error', 'single'],
-       'indent': ['error', 2],
-       'curly': ['error', 'all'],
-       'max-len': ['error', { 'code': 120 }],
-       'no-magic-numbers': ['warn', { 'ignoreArrayIndexes': true }],
-       'sort-imports': ['error', {
-         'ignoreCase': false,
-         'memberSyntaxSortOrder': ['none', 'single', 'multiple', 'all'],
-         'alphabetize': { 'order': 'asc', 'caseInsensitive': true },
-       }],
-       'no-console': 'warn',
-       'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
-       'no-undef': 'error',
-       'no-empty-function': 'warn',
-       'consistent-return': 'error',
-       'no-unsafe-finally': 'warn',
-       'prefer-const': 'error',
-       'require-await': 'warn',
+      'no-console': 'warn',
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      'no-undef': 'error',
+      'no-empty-function': 'warn',
+      'consistent-return': 'error',
+      'no-unsafe-finally': 'warn',
+      'prefer-const': 'error',
+      'require-await': 'warn',
     },
   },
-)
+);
