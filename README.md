@@ -1,4 +1,69 @@
-# e-commerce-app
+# Welcome to our eCommerce Application!
 
-add develop
-add sprint-1
+---
+
+## Description
+
+### Techhouse is an *online hardware store* that allows users to:
+-  Browse a vast range of products  
+-  View detailed product descriptions  
+-  Add favorite items to the basket  
+-  Proceed to checkout
+
+### Key Features
+-  User registration and login  
+-  Product categorization and sorting  
+-  Shopping cart management  
+-  Advanced product search  
+-  Responsive design (min. width: 320px)  
+-  Informative "About Us" page
+
+---
+
+## Project Goals
+
+### Full-featured eCommerce Functionality
+Develop a complete, user-friendly online store with backend integration.
+
+### Intuitive User Experience
+Design clean and accessible interfaces:
+- Login and registration pages  
+- Navigation through the catalog  
+- Product detail views  
+- Cart functionality  
+- "About Us" page
+
+### Code Reliability & Quality
+- Written in TypeScript 
+- Enforced code style with ESLint and Prettier  
+- Pre-commit checks via Husky Git hooks 
+- Unit tests using Jest
+
+### Efficient Development Workflow
+- Git flow with branching and pull requests  
+- Sprint tracking using a task board  
+- Regular code reviews 
+- Comprehensive and up-to-date documentation
+
+### Integration with CommerceTools
+- Product catalog  
+- Shopping cart  
+- User authentication
+
+### Performance Optimization
+- Lazy loading for images and components  
+- Pagination for product listings 
+- Efficient state management
+
+---
+
+## Technology stack used
+
+- **Frontend**: TypeScript, React, SCSS, Vite  
+- **Backend/Integration**: CommerceTools API  
+- **Testing**: Jest   
+- **CI/CD**: Git, Husky, Prettier, ESLint
+
+---
+
+## Team project by [Victor](https://github.com/GrigorevVic), [Nursultan](https://github.com/qwavy) and [Vasiliy](https://github.com/VasiliyAlex)
