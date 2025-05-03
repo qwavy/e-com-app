@@ -66,4 +66,21 @@ Design clean and accessible interfaces:
 
 ---
 
+## Available Scripts
+
+- `npm run dev`: starts the development server using Vite.
+- `npm run build`: compiles TypeScript and builds the project for production using Vite.
+- `npm run preview`: serves the production build for preview using Vite.
+- `npm run lint`: runs ESLint to check for coding style issues according to `.eslint.config.js`
+- `npm run lint:fix`: runs ESLint and automatically fixes any fixable issues.
+- `npm run format`: formats the code using Prettier based on the `.prettierrc` configuration.
+- `npm run format:check`: checks that the code is properly formatted using Prettier.
+- `npm run stylelint`: checks and fixes `.css` files using Stylelint.
+- `npm run test`: runs all tests using Jest.
+- `npm run test:watch`: runs tests in watch mode using Jest.
+- `npm run test:coverage`: runs tests and generates a coverage report using Jest.
+- `npm run prepare`: initializes Husky to enable Git pre-commit hooks.
+
+---
+
 ## Team project by [Victor](https://github.com/GrigorevVic), [Nursultan](https://github.com/qwavy) and [Vasiliy](https://github.com/VasiliyAlex)
