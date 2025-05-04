@@ -83,4 +83,28 @@ Design clean and accessible interfaces:
 
 ---
 
+## Project Setup and Local Launch
+
+### 1. Clone the repository to your local machine:
+```bash
+  git clone https://github.com/GrigorevVic/e-com-app.git
+```
+
+### 2. Change into the project directory:
+```bash
+  cd e-com-app
+```
+
+### 3. Install the required dependencies:
+```bash
+  npm install
+```
+
+### 4. Start the development server:
+```bash
+  npm run dev
+```
+
+---
+
 ## Team project by [Victor](https://github.com/GrigorevVic), [Nursultan](https://github.com/qwavy) and [Vasiliy](https://github.com/VasiliyAlex)
