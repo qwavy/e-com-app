@@ -1,0 +1,53 @@
+.user-controls {
+  position: relative;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.button-link {
+  padding: 8px 16px;
+  border-radius: 10px;
+
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.button-link:hover {
+  background-color: rgb(201 196 196);
+}
+
+.profile-icon,
+.basket {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.arrow-open {
+  transform: rotate(180deg);
+}
+
+.menu-profile {
+  position: absolute;
+  left: -5px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+
+  padding: 10px;
+  border-radius: 10px;
+
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+}
