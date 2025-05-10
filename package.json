@@ -21,11 +21,13 @@
     "@babel/preset-env": "^7.27.1",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
+    "@hookform/resolvers": "^5.0.1",
     "@mantine/core": "^8.0.0",
     "@mantine/hooks": "^8.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.56.3"
+    "react-hook-form": "^7.56.3",
+    "zod": "^3.24.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
