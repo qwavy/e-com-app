@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["jest", "@testing-library/jest-dom"],
+    "types": ["jest", "@testing-library/jest-dom", "react", "@types/react"],
     "forceConsistentCasingInFileNames": true,
     "strict": true
   },

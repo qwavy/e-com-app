@@ -1,7 +1,8 @@
-import IconArrow from '../../../../assets/svg/arrow.svg';
-import IconBasket from '../../../../assets/svg/basket.svg';
-import IconProfile from '../../../../assets/svg/profile-icon.svg';
+import IconArrow from '@assets/svg/arrow.svg';
+import IconBasket from '@assets/svg/basket.svg';
+import IconProfile from '@assets/svg/profile-icon.svg';
 import { Link } from 'react-router-dom';
+import { Paths } from '@shared/types/routerTypes';
 import style from './Header-user-actions.module.css';
 import { useState } from 'react';
 
@@ -12,7 +13,7 @@ export function HeaderUserActions() {
 
   return (
     <div className={style['user-controls']}>
-      <Link to="/cart" className={style['button-link']}>
+      <Link to={Paths.Basket} className={style['button-link']}>
         <img className={style.basket} src={IconBasket} alt="Basket" />
       </Link>
       <div className={style.profile}>
@@ -22,10 +23,10 @@ export function HeaderUserActions() {
         </button>
         {isMenuOpen && (
           <div className={style['menu-profile']}>
-            <Link to="/login" onClick={closeMenu} className={style['button-link']}>
+            <Link to={Paths.Login} onClick={closeMenu} className={style['button-link']}>
               Login
             </Link>
-            <Link to="/register" onClick={closeMenu} className={style['button-link']}>
+            <Link to={Paths.Registration} onClick={closeMenu} className={style['button-link']}>
               Registration
             </Link>
           </div>

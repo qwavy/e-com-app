@@ -4,7 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-plugin-prettier';
-import jest from 'eslint-plugin-jest'
+import jest from 'eslint-plugin-jest';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -19,7 +19,7 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       prettier: prettier,
-      jest: jest
+      jest: jest,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
