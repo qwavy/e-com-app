@@ -1,8 +1,8 @@
 import style from './login.module.css';
-import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextInput } from '@mantine/core';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface FormFields {
   email: string;
@@ -29,7 +29,7 @@ export const Login = () => {
     resolver: zodResolver(schema),
   });
 
-  const login = (data) => {
+  const login: SubmitHandler<FormFields> = (data) => {
     // ignore code
     data.email = '';
   };
@@ -39,6 +39,7 @@ export const Login = () => {
       <h1>Login</h1>
       <div>
         <TextInput
+          w={{ base: 280, sm: 360, lg: 540 }}
           withAsterisk
           label="Email"
           {...register('email')}
@@ -50,6 +51,7 @@ export const Login = () => {
 
       <div>
         <TextInput
+          w={{ base: 280, sm: 360, lg: 540 }}
           withAsterisk
           label="Password"
           {...register('password')}

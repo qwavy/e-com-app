@@ -1,11 +1,8 @@
 import '@mantine/core/styles.css';
 
 import { Login } from '../pages/login';
-import { MantineProvider, createTheme } from '@mantine/core';
-
-const theme = createTheme({
-  primaryColor: 'dark',
-});
+import { MantineProvider } from '@mantine/core';
+import { theme } from './provider/mantine';
 
 function App() {
   return (
