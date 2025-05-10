@@ -1,11 +1,13 @@
-import { Header } from '../widgets/header';
+import '@mantine/core/styles.css';
+
+import { Login } from '../pages/login';
+import { MantineProvider } from '@mantine/core';
 
 function App() {
   return (
-    <>
-      <Header />
-      <h1>e-com-app</h1>
-    </>
+    <MantineProvider>
+      <Login />
+    </MantineProvider>
   );
 }
 
