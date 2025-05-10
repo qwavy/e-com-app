@@ -12,18 +12,10 @@ interface FormFields {
 const MIN_PASSWORD_LENGTH = 8;
 
 const schema = z.object({
-  email: z
-    .string()
-    .email({ message: 'Email address must be properly formatted (e.g., user@example.com)' })
-    .refine((val) => val === val.trim(), {
-      message: 'Email address must not contain leading or trailing whitespace',
-    })
-    .refine((val) => val.includes('@') && val.split('@')[1]?.includes('.'), {
-      message: 'Email address must contain a domain name (e.g., example.com)',
-    })
-    .refine((val) => val.includes('@'), {
-      message: 'Email address must contain an "@" symbol separating local part and domain name',
-    }),
+  email: z.string().email({
+    message:
+      'Email address must be properly formatted (user@example.com) and not contain leading or trailing whitespace',
+  }),
   password: z
     .string()
     .min(MIN_PASSWORD_LENGTH, { message: 'Password must be at least 8 characters long' })
