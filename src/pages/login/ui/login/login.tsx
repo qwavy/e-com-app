@@ -1,7 +1,7 @@
 import style from './login.module.css';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, TextInput } from '@mantine/core';
+import { Button, PasswordInput, TextInput } from '@mantine/core';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface FormFields {
@@ -10,14 +10,29 @@ interface FormFields {
 }
 
 const MIN_PASSWORD_LENGTH = 8;
-const MAX_PASSWORD_LENGTH = 12;
 
 const schema = z.object({
-  email: z.string().email(),
+  email: z
+    .string()
+    .email({ message: 'Email address must be properly formatted (e.g., user@example.com)' })
+    .refine((val) => val === val.trim(), {
+      message: 'Email address must not contain leading or trailing whitespace',
+    })
+    .refine((val) => val.includes('@') && val.split('@')[1]?.includes('.'), {
+      message: 'Email address must contain a domain name (e.g., example.com)',
+    })
+    .refine((val) => val.includes('@'), {
+      message: 'Email address must contain an "@" symbol separating local part and domain name',
+    }),
   password: z
     .string()
-    .min(MIN_PASSWORD_LENGTH, { message: 'Password is too short' })
-    .max(MAX_PASSWORD_LENGTH, { message: 'Password is too long' }),
+    .min(MIN_PASSWORD_LENGTH, { message: 'Password must be at least 8 characters long' })
+    .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter (A-Z)' })
+    .regex(/[a-z]/, { message: 'Password must contain at least one lowercase letter (a-z)' })
+    .regex(/[0-9]/, { message: 'Password must contain at least one digit (0-9)' })
+    .refine((val) => val === val.trim(), {
+      message: 'Password must not contain leading or trailing whitespace',
+    }),
 });
 
 export const Login = () => {
@@ -50,7 +65,7 @@ export const Login = () => {
       </div>
 
       <div>
-        <TextInput
+        <PasswordInput
           w={{ base: 280, sm: 360, lg: 540 }}
           withAsterisk
           label="Password"
@@ -58,6 +73,7 @@ export const Login = () => {
           placeholder="Enter your password"
           description="Password field"
           error={errors.password && errors.password.message}
+          type="password"
         />
       </div>
 
