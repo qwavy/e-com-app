@@ -11,7 +11,7 @@
     "baseUrl": "src",
     "paths": {
       "@app/*": ["app/*"],
-      "@assets/*": ["assets/*"],
+      "@features/*": ["features/*"],
       "@entities/*": ["entities/*"],
       "@pages/*": ["pages/*"],
       "@shared/*": ["shared/*"],

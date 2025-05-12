@@ -1,6 +1,6 @@
-import IconArrow from '@assets/svg/arrow.svg';
-import IconBasket from '@assets/svg/basket.svg';
-import IconProfile from '@assets/svg/profile-icon.svg';
+import IconArrow from '../../assets/arrow.svg';
+import IconBasket from '../../assets/basket.svg';
+import IconProfile from '../../assets/profile-icon.svg';
 import { Link } from 'react-router-dom';
 import { Paths } from '@shared/types/routerTypes';
 import style from './Header-user-actions.module.css';
