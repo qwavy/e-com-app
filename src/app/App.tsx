@@ -3,7 +3,7 @@ import '@mantine/core/styles.css';
 import { DefaultLayout } from '../shared/layouts/default-layout';
 import { MantineProvider } from '@mantine/core';
 import React from 'react';
-import { theme } from './provider/mantine';
+import { theme } from './providers/mantine';
 
 import { Route, Routes } from 'react-router-dom';
 import { authRoutes, mainRoutes } from './providers/router/routes';

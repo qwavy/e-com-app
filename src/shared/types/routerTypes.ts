@@ -13,4 +13,5 @@ export const Paths = {
   Product: '/product/:id',
   Login: '/login',
   Registration: '/registration',
+  Error: '*',
 } as const;
