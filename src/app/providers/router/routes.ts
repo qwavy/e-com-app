@@ -1,7 +1,7 @@
 import AboutPage from '@pages/about/about';
 import BasketPage from '@pages/basket/basket';
 import CatalogPage from '@pages/catalog/catalog';
-import LoginPage from '@pages/login/login';
+import { Login } from '@pages/login';
 import MainPage from '@pages/main/main';
 import ProductPage from '@pages/product/product';
 import RegistrationPage from '@pages/registration/registration';
@@ -16,6 +16,6 @@ export const mainRoutes: RouteType[] = [
 ];
 
 export const authRoutes: RouteType[] = [
-  { path: Paths.Login, element: LoginPage },
+  { path: Paths.Login, element: Login },
   { path: Paths.Registration, element: RegistrationPage },
 ];
