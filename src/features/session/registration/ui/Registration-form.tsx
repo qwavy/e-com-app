@@ -1,10 +1,14 @@
 import { schema } from '../../contracts/registartion-schema';
 import style from './Registration-form.module.css';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Checkbox, PasswordInput, Select, TextInput } from '@mantine/core';
+import { SubmitHandler, useForm } from 'react-hook-form';
+// eslint-disable-next-line sort-imports
+import { useState } from 'react';
+// eslint-disable-next-line sort-imports
+import { countries } from '@features/session/contracts/countries';
 // eslint-disable-next-line sort-imports
 import { DateInput } from '@mantine/dates';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, PasswordInput, TextInput } from '@mantine/core';
-import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface RegistartionFields {
   email: string;
@@ -12,9 +16,15 @@ interface RegistartionFields {
   firstName: string;
   lastName: string;
   date: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  defaultAddress: boolean;
 }
 
 export const RegistrationForm = () => {
+  const [defaultAddress, setDefaultAddress] = useState(false);
   const {
     register,
     handleSubmit,
@@ -76,12 +86,64 @@ export const RegistrationForm = () => {
           w={{ base: 280, sm: 360, lg: 540 }}
           withAsterisk
           label="Date of birth"
-          placeholder="Date of birth"
+          placeholder="Select date of birth"
           {...register('date')}
           onChange={(value) => setValue('date', value)}
           error={errors.date && errors.date.message}
         />
       </div>
+
+      <div>
+        <TextInput
+          w={{ base: 280, sm: 360, lg: 540 }}
+          withAsterisk
+          label="Street"
+          {...register('street')}
+          placeholder="Enter your street"
+          error={errors.street && errors.street.message}
+        />
+      </div>
+
+      <div>
+        <TextInput
+          w={{ base: 280, sm: 360, lg: 540 }}
+          withAsterisk
+          label="City"
+          {...register('city')}
+          placeholder="Enter your city"
+          error={errors.city && errors.city.message}
+        />
+      </div>
+
+      <div>
+        <TextInput
+          w={{ base: 280, sm: 360, lg: 540 }}
+          withAsterisk
+          label="Postal Code"
+          {...register('postalCode')}
+          placeholder="Enter your postal code"
+          error={errors.postalCode && errors.postalCode.message}
+        />
+      </div>
+
+      <Select
+        w={{ base: 280, sm: 360, lg: 540 }}
+        withAsterisk
+        label="Country"
+        placeholder="Enter your country"
+        defaultValue={countries[0]}
+        data={countries}
+        {...register('country')}
+        onChange={(value) => setValue('country', value ? value : countries[0])}
+        error={errors.country && errors.country.message}
+      />
+
+      <Checkbox
+        label="Set as default address"
+        {...register('defaultAddress')}
+        onChange={(event) => setDefaultAddress(event.currentTarget.checked)}
+        checked={defaultAddress}
+      />
 
       <Button fullWidth type="submit" variant="outline">
         Sign In
@@ -89,4 +151,3 @@ export const RegistrationForm = () => {
     </form>
   );
 };
-//error={errors.date ? errors.date.message : null} // Ошибка, если есть
