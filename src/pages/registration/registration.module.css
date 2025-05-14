@@ -1,1 +1,19 @@
-/* TODO: styles will be added later */
+.registration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 40px;
+  border-radius: 20px;
+
+  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+}

@@ -3,7 +3,7 @@ import IconBasket from '../../assets/basket.svg';
 import IconProfile from '../../assets/profile-icon.svg';
 import { Link } from 'react-router-dom';
 import { Paths } from '@shared/types/routerTypes';
-import style from './Header-user-actions.module.css';
+import style from './header-user-actions.module.css';
 import { useState } from 'react';
 
 export function HeaderUserActions() {
