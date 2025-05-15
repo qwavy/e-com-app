@@ -118,6 +118,14 @@ export const RegistrationForm = () => {
           />
         </div>
 
+        <Text>Shipping Address</Text>
+        <Checkbox
+          label="Set as default address"
+          {...register('defaultAddress')}
+          onChange={(event) => setDefaultAddress(event.currentTarget.checked)}
+          checked={defaultAddress}
+        />
+
         <div>
           <TextInput
             w={{ base: 280, sm: 360, lg: 540 }}
@@ -161,13 +169,6 @@ export const RegistrationForm = () => {
           {...register('country')}
           onChange={(value) => setValue('country', value as (typeof CountryEnum)['_type'])}
           error={errors.country && errors.country.message}
-        />
-
-        <Checkbox
-          label="Set as default address"
-          {...register('defaultAddress')}
-          onChange={(event) => setDefaultAddress(event.currentTarget.checked)}
-          checked={defaultAddress}
         />
 
         <Button fullWidth type="submit" variant="outline">
