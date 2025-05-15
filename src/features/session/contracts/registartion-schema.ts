@@ -1,6 +1,8 @@
 import { countries } from './countries';
 import { z } from 'zod';
 
+export const CountryEnum = z.enum(countries);
+
 const MIN_PASSWORD_LENGTH = 8;
 const MIN_YEARS = 8;
 
@@ -46,8 +48,8 @@ export const schema = z.object({
   city: z.string().regex(/^(?=.*[a-zA-Z])[a-zA-Z]*$/, {
     message: 'City must contain at least one character and no special characters or numbers',
   }),
-  postalCode: z.string().regex(/^(?=.*[a-zA-Z])[a-zA-Z]*$/, {
-    message: 'Postal code must contain at least one character and no special characters or numbers',
+  postalCode: z.string().regex(/^[a-zA-Z0-9]*$/, {
+    message: 'The postal code must contain numbers or letters.',
   }),
   country: z.enum(countries),
   defaultAddress: z.boolean(),
