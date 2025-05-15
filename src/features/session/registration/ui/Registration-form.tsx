@@ -1,7 +1,7 @@
 import { schema } from '../../contracts/registartion-schema';
 import style from './Registration-form.module.css';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Checkbox, PasswordInput, Select, TextInput } from '@mantine/core';
+import { Anchor, Button, Checkbox, PasswordInput, Select, Text, TextInput } from '@mantine/core';
 import { SubmitHandler, useForm } from 'react-hook-form';
 // eslint-disable-next-line sort-imports
 import { useState } from 'react';
@@ -38,6 +38,7 @@ export const RegistrationForm = () => {
     formState: { errors },
   } = useForm<RegistrationFields>({
     resolver: zodResolver(schema),
+    mode: 'onChange',
   });
 
   const signin: SubmitHandler<RegistrationFields> = async (data) => {
@@ -112,7 +113,7 @@ export const RegistrationForm = () => {
             label="Date of birth"
             placeholder="Select date of birth"
             {...register('date')}
-            onChange={(value) => setValue('date', value)}
+            onChange={(value) => setValue('date', value || '')}
             error={errors.date && errors.date.message}
           />
         </div>
@@ -170,8 +171,15 @@ export const RegistrationForm = () => {
         />
 
         <Button fullWidth type="submit" variant="outline">
-          Sign In
+          Sign Up
         </Button>
+
+        <Text>
+          Already have an account?
+          <Anchor href={'/login'} c="blue" style={{ marginLeft: '0.25rem' }}>
+            Sign In here
+          </Anchor>
+        </Text>
       </form>
     </>
   );
