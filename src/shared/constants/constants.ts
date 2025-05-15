@@ -14,3 +14,4 @@ export const scope =
   'manage_project:nurs-vasiliy-victor-password-key1234 manage_api_clients:nurs-vasiliy-victor-password-key1234 view_api_clients:nurs-vasiliy-victor-password-key1234 view_audit_log:nurs-vasiliy-victor-password-key1234';
 
 export const SUCCESSFUL_RESPONSE_CODE = 200;
+export const SUCCESSFUL_REGISTER_CODE = 201;
