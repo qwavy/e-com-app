@@ -26,7 +26,7 @@ export default tseslint.config(
       'prettier/prettier': 'error',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       quotes: ['error', 'single'],
-      indent: ['error', 2],
+     // indent: ['error', 2],
       curly: ['error', 'all'],
       'max-len': ['error', { code: 120 }],
       'no-magic-numbers': ['warn', { ignoreArrayIndexes: true }],
