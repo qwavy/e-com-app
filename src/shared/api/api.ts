@@ -26,8 +26,8 @@ const tokenCache = {
   clear: () => localStorage.removeItem(tokenKey),
 };
 export function buildAnonymousClient() {
-  //const anonymousId = localStorage.getItem('ct_anonymous_id') || crypto.randomUUID();
-  //localStorage.setItem('ct_anonymous_id', anonymousId);
+  const anonymousId = localStorage.getItem('ct_anonymous_id') || crypto.randomUUID();
+  localStorage.setItem('ct_anonymous_id', anonymousId);
 
   const client = new ClientBuilder()
     .withProjectKey(PROJECT_KEY)
@@ -50,6 +50,7 @@ export function buildAnonymousClient() {
 }
 
 export function buildCustomerClient(email: string, password: string) {
+  localStorage.removeItem('ct_anonymous_id');
   tokenCache.clear();
 
   const client = new ClientBuilder()

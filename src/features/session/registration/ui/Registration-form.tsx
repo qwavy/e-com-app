@@ -6,7 +6,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 // eslint-disable-next-line sort-imports
 import { useState } from 'react';
 // eslint-disable-next-line sort-imports
-import { CountryEnum } from '../../contracts/registartion-schema';
 import { countries } from '@features/session/contracts/countries';
 // eslint-disable-next-line sort-imports
 import { DateInput } from '@mantine/dates';
@@ -24,7 +23,7 @@ export interface RegistrationFields {
   street: string;
   city: string;
   postalCode: string;
-  country: typeof CountryEnum._type;
+  country: string;
   defaultAddress: boolean;
 }
 
@@ -164,10 +163,9 @@ export const RegistrationForm = () => {
           withAsterisk
           label="Country"
           placeholder="Enter your country"
-          defaultValue={countries[0]}
           data={countries}
           {...register('country')}
-          onChange={(value) => setValue('country', value as (typeof CountryEnum)['_type'])}
+          onChange={(value) => setValue('country', value as string)}
           error={errors.country && errors.country.message}
         />
 
