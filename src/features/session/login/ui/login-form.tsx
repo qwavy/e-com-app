@@ -46,6 +46,7 @@ export const LoginForm = () => {
         message: 'Registration successful!',
         color: 'green',
       });
+
       navigate('/');
     }
   };
