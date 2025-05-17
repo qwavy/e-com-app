@@ -1,4 +1,4 @@
-import { countries } from './countries';
+import { countries } from '../contracts/countries';
 import { z } from 'zod';
 
 export const CountryEnum = z.enum(countries);

@@ -1,75 +1,13 @@
-import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { BASE_URI, CLIENT_ID, CLIENT_SECRET, OAUTH_URI, PROJECT_KEY, scope } from '../constants/constants';
-import { ClientBuilder, TokenStore } from '@commercetools/ts-client';
+import type { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
 
-const httpOptions = {
-  host: BASE_URI,
-  httpClient: fetch,
-};
-
-const tokenKey = 'ct_token';
-
-const tokenCache = {
-  get: () => {
-    const raw = localStorage.getItem(tokenKey);
-
-    if (raw) {
-      return JSON.parse(raw) as TokenStore;
-    }
-    return {} as TokenStore;
-  },
-
-  set: (token: TokenStore) => {
-    localStorage.setItem(tokenKey, JSON.stringify(token));
-  },
-
-  clear: () => localStorage.removeItem(tokenKey),
-};
-export function buildAnonymousClient() {
-  //const anonymousId = localStorage.getItem('ct_anonymous_id') || crypto.randomUUID();
-  //localStorage.setItem('ct_anonymous_id', anonymousId);
-
-  const client = new ClientBuilder()
-    .withProjectKey(PROJECT_KEY)
-    .withAnonymousSessionFlow({
-      host: OAUTH_URI,
-      projectKey: PROJECT_KEY,
-      credentials: {
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        anonymousId: crypto.randomUUID(),
-      },
-      scopes: scope.split(' '),
-      httpClient: fetch,
-      tokenCache,
-    })
-    .withHttpMiddleware(httpOptions)
-    .build();
-
-  return createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: PROJECT_KEY });
+export interface ApiInstance {
+  api: ByProjectKeyRequestBuilder;
+  accessToken: string;
+  refreshToken?: string;
 }
 
-export function buildCustomerClient(email: string, password: string) {
-  tokenCache.clear();
+export let api: ApiInstance | null = null;
 
-  const client = new ClientBuilder()
-    .withProjectKey(PROJECT_KEY)
-    .withPasswordFlow({
-      host: OAUTH_URI,
-      projectKey: PROJECT_KEY,
-      credentials: {
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        user: { username: email, password },
-      },
-      scopes: scope.split(' '),
-      httpClient: fetch,
-      tokenCache,
-    })
-    .withHttpMiddleware(httpOptions)
-    .build();
-
-  api = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: PROJECT_KEY });
+export function setApi(newApi: ApiInstance) {
+  api = newApi;
 }
-
-export let api = buildAnonymousClient();
