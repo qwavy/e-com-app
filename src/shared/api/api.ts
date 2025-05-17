@@ -1,6 +1,7 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { BASE_URI, CLIENT_ID, CLIENT_SECRET, OAUTH_URI, PROJECT_KEY, scope } from '../constants/constants';
 import { ClientBuilder, TokenStore } from '@commercetools/ts-client';
+
+import { BASE_URI, CLIENT_ID, CLIENT_SECRET, OAUTH_URI, PROJECT_KEY, scope } from '../constants/constants';
 
 const httpOptions = {
   host: BASE_URI,

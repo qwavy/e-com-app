@@ -1,5 +1,6 @@
-import { countries } from './countries';
 import { z } from 'zod';
+
+import { countries } from './countries';
 
 const MIN_PASSWORD_LENGTH = 8;
 const MIN_YEARS = 8;

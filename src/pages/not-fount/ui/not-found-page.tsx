@@ -1,7 +1,8 @@
-import IconError from '../assets/not-found.svg';
-import { Link } from 'react-router-dom';
 import { Paths } from '@shared/types/routerTypes';
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import IconError from '../assets/not-found.svg';
 import style from './not-found-page.module.css';
 
 export const NotFoundPage: React.FC = () => {

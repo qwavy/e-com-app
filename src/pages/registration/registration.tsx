@@ -1,4 +1,5 @@
 import { RegistrationForm } from '@features/session/registration';
+
 import style from './registration.module.css';
 
 const RegistrationPage = () => {

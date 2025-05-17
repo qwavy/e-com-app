@@ -1,6 +1,7 @@
-import { HeaderUserActions } from '../header-user-actions/header-user-actions';
-import { Link } from 'react-router-dom';
 import { Paths } from '@shared/types/routerTypes';
+import { Link } from 'react-router-dom';
+
+import { HeaderUserActions } from '../header-user-actions/header-user-actions';
 import style from './header.module.css';
 
 export const Header = () => {
