@@ -1,5 +1,5 @@
-import { loginAction } from '../model/model';
-import { schema } from '../../contracts/login-schema';
+import { loginAction } from '../model/login-action';
+import { schema } from '../model/login-schema';
 import style from './login-form.module.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, PasswordInput, TextInput } from '@mantine/core';

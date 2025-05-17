@@ -1,19 +1,15 @@
-import { schema } from '../../contracts/registartion-schema';
+import { CountryEnum } from '../model/registartion-schema';
+import { DateInput } from '@mantine/dates';
+import { countries } from '@features/registration-user/contracts/countries';
+import { notifications } from '@mantine/notifications';
+import { registerAction } from '../model/register-action';
+import { schema } from '../model/registartion-schema';
 import style from './Registration-form.module.css';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Anchor, Button, Checkbox, PasswordInput, Select, Text, TextInput } from '@mantine/core';
 import { SubmitHandler, useForm } from 'react-hook-form';
-// eslint-disable-next-line sort-imports
-import { useState } from 'react';
-// eslint-disable-next-line sort-imports
-import { CountryEnum } from '../../contracts/registartion-schema';
-import { countries } from '@features/session/contracts/countries';
-// eslint-disable-next-line sort-imports
-import { DateInput } from '@mantine/dates';
-import { registerAction } from '../model/model';
-// eslint-disable-next-line sort-imports
-import { notifications } from '@mantine/notifications';
-import { useNavigate } from 'react-router-dom';
 
 export interface RegistrationFields {
   email: string;
