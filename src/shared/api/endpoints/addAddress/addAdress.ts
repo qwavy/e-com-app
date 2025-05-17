@@ -1,13 +1,20 @@
-import { RegistrationFields } from '@features/session/registration/ui/Registration-form';
 import { api } from '@shared/api/api';
 
 interface Props {
-  data: RegistrationFields;
+  address: Address;
   version: number;
   id: string;
 }
 
-export function addDefaultAddress({ data, version, id }: Props) {
+interface Address {
+  streetName: string;
+  postalCode: string;
+  city: string;
+  country: string;
+}
+
+export function addAddress({ address, version, id }: Props) {
+  const { streetName, postalCode, city, country } = address;
   return api
     .customers()
     .withId({ ID: id })
@@ -18,10 +25,10 @@ export function addDefaultAddress({ data, version, id }: Props) {
           {
             action: 'addAddress',
             address: {
-              streetName: data.street,
-              postalCode: data.postalCode,
-              city: data.city,
-              country: data.country,
+              streetName,
+              postalCode,
+              city,
+              country,
             },
           },
         ],

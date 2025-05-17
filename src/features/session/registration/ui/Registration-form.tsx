@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Anchor, Button, Checkbox, PasswordInput, Select, Text, TextInput } from '@mantine/core';
 import { SubmitHandler, useForm } from 'react-hook-form';
 // eslint-disable-next-line sort-imports
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 // eslint-disable-next-line sort-imports
 import { countries } from '@features/session/contracts/countries';
 // eslint-disable-next-line sort-imports
@@ -25,10 +25,10 @@ export interface RegistrationFields {
   city: string;
   postalCode: string;
   country: string;
-  street1?: string;
-  city1?: string;
-  postalCode1?: string;
-  country1?: string;
+  billingStreet?: string;
+  billingCity?: string;
+  billingPostalCode?: string;
+  billingCountry?: string;
   billingAddress: boolean;
   defaultAddress: boolean;
 }
@@ -49,13 +49,12 @@ export const RegistrationForm = () => {
   });
 
   const signin: SubmitHandler<RegistrationFields> = async (data) => {
-    console.log(data);
     const response = await registerAction(data);
     if (response.error) {
       notifications.show({
         position: 'top-center',
         title: 'Error',
-        autoClose: 3000,
+        autoClose: 10000,
         message: response.error,
         color: 'red',
       });
@@ -68,16 +67,6 @@ export const RegistrationForm = () => {
       });
       navigate('/');
     }
-  };
-
-  const handlerDefaultAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    setDefaultAddress(event.currentTarget.checked);
-    console.log(event.currentTarget.checked);
-  };
-
-  const handlerBillingAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    setBillingAddress(event.currentTarget.checked);
-    console.log(event.currentTarget.checked);
   };
 
   return (
@@ -143,14 +132,14 @@ export const RegistrationForm = () => {
         <Checkbox
           label="Set as default address"
           {...register('defaultAddress')}
-          onChange={(e) => handlerDefaultAddress(e)}
+          onChange={(e) => setDefaultAddress(e.currentTarget.checked)}
           checked={defaultAddress}
         />
 
         <Checkbox
           label="Use as billing address"
           {...register('billingAddress')}
-          onChange={(e) => handlerBillingAddress(e)}
+          onChange={(e) => setBillingAddress(e.currentTarget.checked)}
           checked={billingAddress}
         />
 
@@ -198,53 +187,57 @@ export const RegistrationForm = () => {
           error={errors.country && errors.country.message}
         />
 
-        <Text ta="right" fw={700} size="xl">
-          Billing Address
-        </Text>
+        {!billingAddress && (
+          <>
+            <Text ta="right" fw={700} size="xl">
+              Billing Address
+            </Text>
+            <div>
+              <TextInput
+                w={{ base: 280, sm: 360, lg: 540 }}
+                withAsterisk
+                label="Street"
+                {...register('billingStreet')}
+                placeholder="Enter your street"
+                error={errors.billingStreet && errors.billingStreet.message}
+              />
+            </div>
 
-        <div>
-          <TextInput
-            w={{ base: 280, sm: 360, lg: 540 }}
-            withAsterisk
-            label="Street"
-            {...register('street1')}
-            placeholder="Enter your street"
-            error={errors.street1 && errors.street1.message}
-          />
-        </div>
+            <div>
+              <TextInput
+                w={{ base: 280, sm: 360, lg: 540 }}
+                withAsterisk
+                label="City"
+                {...register('billingCity')}
+                placeholder="Enter your city"
+                error={errors.billingCity && errors.billingCity.message}
+              />
+            </div>
 
-        <div>
-          <TextInput
-            w={{ base: 280, sm: 360, lg: 540 }}
-            withAsterisk
-            label="City"
-            {...register('city1')}
-            placeholder="Enter your city"
-            error={errors.city1 && errors.city1.message}
-          />
-        </div>
-
-        <div>
-          <TextInput
-            w={{ base: 280, sm: 360, lg: 540 }}
-            withAsterisk
-            label="Postal Code"
-            {...register('postalCode1')}
-            placeholder="Enter your postal code"
-            error={errors.postalCode1 && errors.postalCode1.message}
-          />
-        </div>
-
-        <Select
-          w={{ base: 280, sm: 360, lg: 540 }}
-          withAsterisk
-          label="Country"
-          placeholder="Enter your country"
-          data={countries}
-          {...register('country1')}
-          onChange={(value) => setValue('country1', value as string)}
-          error={errors.country1 && errors.country1.message}
-        />
+            <div>
+              <TextInput
+                w={{ base: 280, sm: 360, lg: 540 }}
+                withAsterisk
+                label="Postal Code"
+                {...register('billingPostalCode')}
+                placeholder="Enter your postal code"
+                error={errors.billingPostalCode && errors.billingPostalCode.message}
+              />
+            </div>
+            <div>
+              <Select
+                w={{ base: 280, sm: 360, lg: 540 }}
+                withAsterisk
+                label="Country"
+                placeholder="Enter your country"
+                data={countries}
+                {...register('billingCountry')}
+                onChange={(value) => setValue('billingCountry', value as string)}
+                error={errors.billingCountry && errors.billingCountry.message}
+              />
+            </div>
+          </>
+        )}
 
         <Button fullWidth type="submit" variant="outline">
           Sign Up

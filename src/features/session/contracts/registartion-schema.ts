@@ -57,17 +57,17 @@ export const schema = (isBillingAddress: boolean) =>
         message: 'The postal code must contain numbers or letters.',
       }),
     country: z.string().nonempty('Select your country from the list'),
-    street1: !isBillingAddress
+    billingStreet: !isBillingAddress
       ? z.string().min(1, {
           message: 'Street must contain at least one character',
         })
       : z.string().optional(),
-    city1: !isBillingAddress
+    billingCity: !isBillingAddress
       ? z.string().regex(/^(?=.*[a-zA-Z])[a-zA-Z]*$/, {
           message: 'City must contain at least one character and no special characters or numbers',
         })
       : z.string().optional(),
-    postalCode1: !isBillingAddress
+    billingPostalCode: !isBillingAddress
       ? z
           .string()
           .min(1, {
@@ -77,5 +77,7 @@ export const schema = (isBillingAddress: boolean) =>
             message: 'The postal code must contain numbers or letters.',
           })
       : z.string().optional(),
-    country1: !isBillingAddress ? z.string().nonempty('Select your country from the list') : z.string().optional(),
+    billingCountry: !isBillingAddress
+      ? z.string().nonempty('Select your country from the list')
+      : z.string().optional(),
   });
