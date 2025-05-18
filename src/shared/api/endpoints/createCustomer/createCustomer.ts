@@ -31,19 +31,21 @@ export async function createCustomer(data: RegistrationFields) {
     };
 
     let billingAddressId;
+    let newVersion = version;
     const shippingAddressId = (await addAddress({ address: shippingAddress, version, id })).body.addresses[0].id;
     if (!data.billingAddress) {
-      billingAddressId = (await addAddress({ address: billingAddress, version, id })).body.addresses[0].id;
+      newVersion = version + 1;
+      billingAddressId = (await addAddress({ address: billingAddress, version: newVersion, id })).body.addresses[1].id;
     } else {
       billingAddressId = shippingAddressId;
     }
-    // 2 галки
-    if (data.defaultAddress && data.billingAddress) {
+
+    if ((data.defaultAddress && data.billingAddress) || (data.defaultAddress && !data.billingAddress)) {
       if (shippingAddressId && billingAddressId) {
         await setAddressId({
           shippingAddressId,
           billingAddressId,
-          version,
+          version: newVersion,
           id,
           action1: Action.setDefaultShippingAddress,
           action2: Action.setDefaultBillingAddress,
@@ -51,14 +53,12 @@ export async function createCustomer(data: RegistrationFields) {
       }
     }
 
-    // 1 галка default
-
-    if (!data.defaultAddress && data.billingAddress) {
+    if ((!data.defaultAddress && data.billingAddress) || (!data.defaultAddress && !data.billingAddress)) {
       if (shippingAddressId && billingAddressId) {
         await setAddressId({
           shippingAddressId,
           billingAddressId,
-          version,
+          version: newVersion,
           id,
           action1: Action.addShippingAddressId,
           action2: Action.addBillingAddressId,
@@ -71,8 +71,3 @@ export async function createCustomer(data: RegistrationFields) {
     return { success: false, error: error };
   }
 }
-
-//setDefaultShippingAddress
-//setDefaultBillingAddress
-//addBillingAddressId
-//addShippingAddressId

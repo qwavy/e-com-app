@@ -13,9 +13,9 @@ interface Address {
   country: string;
 }
 
-export function addAddress({ address, version, id }: Props) {
+export async function addAddress({ address, version, id }: Props) {
   const { streetName, postalCode, city, country } = address;
-  return api
+  const res = await api
     .customers()
     .withId({ ID: id })
     .post({
@@ -35,4 +35,5 @@ export function addAddress({ address, version, id }: Props) {
       },
     })
     .execute();
+  return res;
 }
