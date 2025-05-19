@@ -1,5 +1,17 @@
-const ProfilePage = () => {
-  return <h2>Profile Page</h2>;
-};
+import { userStore } from '@entities/user/model/user-store';
+import { observer } from 'mobx-react-lite';
 
-export default ProfilePage;
+import style from './profile.module.css';
+
+export const ProfilePage = observer(() => {
+  const { user } = userStore;
+
+  if (!user) {
+    return <div className={style.loading}>Loading...</div>;
+  }
+  return (
+    <h2 className={style.title}>
+      Welcome, {user.firstName} {user.lastName}!
+    </h2>
+  );
+});

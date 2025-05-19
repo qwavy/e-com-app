@@ -1,8 +1,8 @@
-import React from 'react';
+import { ReactElement } from 'react';
 
 export interface RouteType {
   path: string;
-  element: React.ComponentType;
+  element: ReactElement;
 }
 
 export const Paths = {
@@ -14,4 +14,5 @@ export const Paths = {
   Login: '/login',
   Registration: '/registration',
   Error: '*',
+  Profile: '/profile',
 } as const;

@@ -1,6 +1,6 @@
-import { BASE_URI } from '@shared/constants/constants';
+import { BASE_URL } from '@shared/constants/constants';
 
 export const httpOptions = {
-  host: BASE_URI,
+  host: BASE_URL,
   httpClient: fetch,
 };

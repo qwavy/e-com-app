@@ -38,3 +38,11 @@
   text-decoration: none;
   background-color: rgb(201 196 196);
 }
+
+@media (width <= 600px) {
+  .navigation {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 100px;
+  }
+}
