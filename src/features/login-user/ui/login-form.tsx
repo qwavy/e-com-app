@@ -19,7 +19,6 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
@@ -36,9 +35,6 @@ export const LoginForm = () => {
         message: response.error,
         color: 'red',
       });
-
-      setError('email', { message: response.error });
-      setError('password', { message: response.error });
     } else {
       notifications.show({
         position: 'top-center',

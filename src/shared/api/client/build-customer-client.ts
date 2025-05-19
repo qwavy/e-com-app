@@ -1,8 +1,9 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { createClientBuilder } from '../base/client-builder';
-import { setApi } from '../api';
-import { tokenCache } from '../base/token-cache';
 import { CLIENT_ID, CLIENT_SECRET, OAUTH_URI, PROJECT_KEY, scope } from '@shared/constants/constants';
+
+import { setApi } from '../api';
+import { createClientBuilder } from '../base/client-builder';
+import { tokenCache } from '../base/token-cache';
 
 export async function buildCustomerClient(email: string, password: string) {
   tokenCache.clear();
