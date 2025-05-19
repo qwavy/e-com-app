@@ -1,0 +1,48 @@
+.header {
+  width: 100%;
+  padding: 20px;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.menu-page {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+
+.button-link {
+  padding: 8px 16px;
+  border-radius: 10px;
+
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.button-link:hover {
+  text-decoration: none;
+  background-color: rgb(201 196 196);
+}
+
+@media (width <= 600px) {
+  .navigation {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 100px;
+  }
+}

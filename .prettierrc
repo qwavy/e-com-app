@@ -4,5 +4,9 @@
   "singleQuote": true,
   "arrowParens": "always",
   "printWidth": 120,
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }
