@@ -2,7 +2,7 @@ import { RegistrationForm } from '@features/registration-user';
 
 import style from './registration.module.css';
 
-const RegistrationPage = () => {
+export const RegistrationPage = () => {
   return (
     <div className={style.registration}>
       <div className={style['registration-container']}>
@@ -12,5 +12,3 @@ const RegistrationPage = () => {
     </div>
   );
 };
-
-export default RegistrationPage;

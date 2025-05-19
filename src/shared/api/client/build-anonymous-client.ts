@@ -1,14 +1,16 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { CLIENT_ID, CLIENT_SECRET, OAUTH_URL, PROJECT_KEY, scope } from '@shared/constants/constants';
+
 import { createClientBuilder } from '../base/client-builder';
 import { tokenCache } from '../base/token-cache';
-import { CLIENT_ID, CLIENT_SECRET, OAUTH_URI, PROJECT_KEY, scope } from '@shared/constants/constants';
+
 export async function buildAnonymousClient() {
   tokenCache.clear();
 
   const client = createClientBuilder()
     .withProjectKey(PROJECT_KEY)
     .withAnonymousSessionFlow({
-      host: OAUTH_URI,
+      host: OAUTH_URL,
       projectKey: PROJECT_KEY,
       credentials: {
         clientId: CLIENT_ID,
@@ -24,14 +26,6 @@ export async function buildAnonymousClient() {
   const apiInstance = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: PROJECT_KEY });
 
   await apiInstance.get().execute();
-
-  const tokens = tokenCache.get();
-  const apiWithTokens = {
-    api: apiInstance,
-    accessToken: tokens?.token ?? '',
-    refreshToken: tokens?.refreshToken,
-  };
-  console.log(apiWithTokens);
 
   return {
     api: apiInstance,

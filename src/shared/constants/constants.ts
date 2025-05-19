@@ -1,5 +1,5 @@
-export const BASE_URI = 'https://api.europe-west1.gcp.commercetools.com';
-export const OAUTH_URI = 'https://auth.europe-west1.gcp.commercetools.com';
+export const BASE_URL = 'https://api.europe-west1.gcp.commercetools.com';
+export const OAUTH_URL = 'https://auth.europe-west1.gcp.commercetools.com';
 export const PROJECT_KEY = 'nurs-vasiliy-victor-password-key1234';
 export const CLIENT_ID = 'luvI032Cs2EEisHuikf0is3H';
 export const CLIENT_SECRET = 'R9nCyCpOGdIzorwxFG5qiQqOTWZDVIDr';

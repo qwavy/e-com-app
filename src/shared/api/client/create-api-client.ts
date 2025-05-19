@@ -1,10 +1,11 @@
-import { RegistrationFields } from '@features/registration-user/ui/registration-form';
-import { addAddress } from '../endpoints/addAddress/addAdress';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { RegistrationFields } from '@features/registration-user/ui/registration-form';
+import { CLIENT_ID, CLIENT_SECRET, OAUTH_URL, PROJECT_KEY, scope } from '@shared/constants/constants';
+
 import { createClientBuilder } from '../base/client-builder';
-import { setAddressId } from '../endpoints/setAddressId/setAddressId';
 import { tokenCache } from '../base/token-cache';
-import { CLIENT_ID, CLIENT_SECRET, OAUTH_URI, PROJECT_KEY, scope } from '@shared/constants/constants';
+import { addAddress } from '../endpoints/addAddress/addAdress';
+import { setAddressId } from '../endpoints/setAddressId/setAddressId';
 
 export enum Action {
   setDefaultShippingAddress = 'setDefaultShippingAddress',
@@ -19,7 +20,7 @@ export const createApiClient = () => {
   const client = createClientBuilder()
     .withProjectKey(PROJECT_KEY)
     .withClientCredentialsFlow({
-      host: OAUTH_URI,
+      host: OAUTH_URL,
       projectKey: PROJECT_KEY,
       credentials: {
         clientId: CLIENT_ID,

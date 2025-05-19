@@ -1,0 +1,11 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+
+  font-size: 44px;
+  color: #555;
+  text-align: center;
+}
