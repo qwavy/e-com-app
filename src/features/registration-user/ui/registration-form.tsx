@@ -1,13 +1,13 @@
-import { CountryEnum } from '../model/registartion-schema';
 import { DateInput } from '@mantine/dates';
 import { countries } from '@features/registration-user/contracts/countries';
 import { notifications } from '@mantine/notifications';
 import { registerAction } from '../model/register-action';
 import { schema } from '../model/registartion-schema';
-import style from './Registration-form.module.css';
+import style from './registration-form.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import { Anchor, Button, Checkbox, PasswordInput, Select, Text, TextInput } from '@mantine/core';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -20,20 +20,27 @@ export interface RegistrationFields {
   street: string;
   city: string;
   postalCode: string;
-  country: typeof CountryEnum._type;
+  country: string;
+  billingStreet?: string;
+  billingCity?: string;
+  billingPostalCode?: string;
+  billingCountry?: string;
+  billingAddress: boolean;
   defaultAddress: boolean;
 }
 
 export const RegistrationForm = () => {
   const [defaultAddress, setDefaultAddress] = useState(false);
+  const [billingAddress, setBillingAddress] = useState(false);
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<RegistrationFields>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema(billingAddress)),
     mode: 'onChange',
   });
 
@@ -43,7 +50,7 @@ export const RegistrationForm = () => {
       notifications.show({
         position: 'top-center',
         title: 'Error',
-        autoClose: 3000,
+        autoClose: 10000,
         message: response.error,
         color: 'red',
       });
@@ -114,12 +121,22 @@ export const RegistrationForm = () => {
           />
         </div>
 
-        <Text>Shipping Address</Text>
+        <Text ta="right" fw={700} size="xl">
+          Shipping Address
+        </Text>
+
         <Checkbox
           label="Set as default address"
           {...register('defaultAddress')}
-          onChange={(event) => setDefaultAddress(event.currentTarget.checked)}
+          onChange={(e) => setDefaultAddress(e.currentTarget.checked)}
           checked={defaultAddress}
+        />
+
+        <Checkbox
+          label="Use as billing address"
+          {...register('billingAddress')}
+          onChange={(e) => setBillingAddress(e.currentTarget.checked)}
+          checked={billingAddress}
         />
 
         <div>
@@ -160,12 +177,63 @@ export const RegistrationForm = () => {
           withAsterisk
           label="Country"
           placeholder="Enter your country"
-          defaultValue={countries[0]}
           data={countries}
           {...register('country')}
-          onChange={(value) => setValue('country', value as (typeof CountryEnum)['_type'])}
+          onChange={(value) => setValue('country', value as string)}
           error={errors.country && errors.country.message}
         />
+
+        {!billingAddress && (
+          <>
+            <Text ta="right" fw={700} size="xl">
+              Billing Address
+            </Text>
+            <div>
+              <TextInput
+                w={{ base: 280, sm: 360, lg: 540 }}
+                withAsterisk
+                label="Street"
+                {...register('billingStreet')}
+                placeholder="Enter your street"
+                error={errors.billingStreet && errors.billingStreet.message}
+              />
+            </div>
+
+            <div>
+              <TextInput
+                w={{ base: 280, sm: 360, lg: 540 }}
+                withAsterisk
+                label="City"
+                {...register('billingCity')}
+                placeholder="Enter your city"
+                error={errors.billingCity && errors.billingCity.message}
+              />
+            </div>
+
+            <div>
+              <TextInput
+                w={{ base: 280, sm: 360, lg: 540 }}
+                withAsterisk
+                label="Postal Code"
+                {...register('billingPostalCode')}
+                placeholder="Enter your postal code"
+                error={errors.billingPostalCode && errors.billingPostalCode.message}
+              />
+            </div>
+            <div>
+              <Select
+                w={{ base: 280, sm: 360, lg: 540 }}
+                withAsterisk
+                label="Country"
+                placeholder="Enter your country"
+                data={countries}
+                {...register('billingCountry')}
+                onChange={(value) => setValue('billingCountry', value as string)}
+                error={errors.billingCountry && errors.billingCountry.message}
+              />
+            </div>
+          </>
+        )}
 
         <Button fullWidth type="submit" variant="outline">
           Sign Up

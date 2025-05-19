@@ -1,5 +1,4 @@
 import type { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
-
 export interface ApiInstance {
   api: ByProjectKeyRequestBuilder;
   accessToken: string;
