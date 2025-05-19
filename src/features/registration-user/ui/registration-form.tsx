@@ -1,15 +1,15 @@
-import { DateInput } from '@mantine/dates';
 import { countries } from '@features/registration-user/contracts/countries';
-import { notifications } from '@mantine/notifications';
-import { registerAction } from '../model/register-action';
-import { schema } from '../model/registartion-schema';
-import style from './registration-form.module.css';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { Anchor, Button, Checkbox, PasswordInput, Select, Text, TextInput } from '@mantine/core';
+import { DateInput } from '@mantine/dates';
+import { notifications } from '@mantine/notifications';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+import { schema } from '../model/registartion-schema';
+import { registerAction } from '../model/register-action';
+import style from './registration-form.module.css';
 
 export interface RegistrationFields {
   email: string;

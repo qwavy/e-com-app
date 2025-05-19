@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, PasswordInput, TextInput } from '@mantine/core';
+import { Anchor, Button, PasswordInput, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +39,7 @@ export const LoginForm = () => {
       notifications.show({
         position: 'top-center',
         autoClose: 3000,
-        message: 'Registration successful!',
+        message: 'Login successful!',
         color: 'green',
       });
 
@@ -78,6 +78,13 @@ export const LoginForm = () => {
         <Button loading={isSubmitting} fullWidth type="submit" variant="outline">
           Login
         </Button>
+
+        <Text>
+          Don't have an account?
+          <Anchor href={'/registration'} c="blue" style={{ marginLeft: '0.25rem' }}>
+            Sign Up here
+          </Anchor>
+        </Text>
       </form>
     </>
   );
