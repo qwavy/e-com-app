@@ -1,14 +1,13 @@
+import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
+import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import { DefaultLayout } from '../shared/layouts/default-layout';
-import { MantineProvider } from '@mantine/core';
-import { Notifications } from '@mantine/notifications';
-import React from 'react';
 import { theme } from './providers/mantine';
-
-import { Route, Routes } from 'react-router-dom';
 import { authRoutes, mainRoutes } from './providers/router/routes';
 
 function App() {
