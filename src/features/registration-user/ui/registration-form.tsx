@@ -38,6 +38,7 @@ export const RegistrationForm = () => {
     register,
     handleSubmit,
     setValue,
+    clearErrors,
     formState: { errors },
   } = useForm<RegistrationFields>({
     resolver: zodResolver(schema(billingAddress)),
@@ -64,7 +65,6 @@ export const RegistrationForm = () => {
       navigate('/');
     }
   };
-
   return (
     <>
       <form onSubmit={handleSubmit(signin)} className={style.form}>
@@ -116,7 +116,10 @@ export const RegistrationForm = () => {
             label="Date of birth"
             placeholder="Select date of birth"
             {...register('date')}
-            onChange={(value) => setValue('date', value || '')}
+            onChange={(value) => {
+              setValue('date', value || '');
+              clearErrors('date');
+            }}
             error={errors.date && errors.date.message}
           />
         </div>
@@ -178,6 +181,7 @@ export const RegistrationForm = () => {
           label="Country"
           placeholder="Enter your country"
           data={countries}
+          defaultValue={countries[0].value}
           {...register('country')}
           onChange={(value) => setValue('country', value as string)}
           error={errors.country && errors.country.message}
@@ -227,6 +231,7 @@ export const RegistrationForm = () => {
                 label="Country"
                 placeholder="Enter your country"
                 data={countries}
+                defaultValue={countries[0].value}
                 {...register('billingCountry')}
                 onChange={(value) => setValue('billingCountry', value as string)}
                 error={errors.billingCountry && errors.billingCountry.message}

@@ -32,10 +32,10 @@ export const schema = (isBillingAddress: boolean) =>
         message: 'Password must not contain leading or trailing whitespace',
       }),
     firstName: z.string().regex(/^(?=.*[a-zA-Z])[a-zA-Z]*$/, {
-      message: 'Name must contain at least one character and no special characters or numbers',
+      message: 'Name must contain at least one character (A-Z, a-z) and no special characters or numbers',
     }),
     lastName: z.string().regex(/^(?=.*[a-zA-Z])[a-zA-Z]*$/, {
-      message: 'Name must contain at least one character and no special characters or numbers',
+      message: 'Name must contain at least one character (A-Z, a-z) and no special characters or numbers',
     }),
     date: z.string().refine((dob) => isAtLeast13(dob) >= MIN_YEARS, {
       message: 'You should be older than 13 years old',
@@ -43,10 +43,10 @@ export const schema = (isBillingAddress: boolean) =>
     defaultAddress: z.boolean(),
     billingAddress: z.boolean(),
     street: z.string().min(1, {
-      message: 'Street must contain at least one character',
+      message: 'Street must contain at least one character (A-Z, a-z)',
     }),
     city: z.string().regex(/^(?=.*[a-zA-Z])[a-zA-Z]*$/, {
-      message: 'City must contain at least one character and no special characters or numbers',
+      message: 'City must contain at least one character (A-Z, a-z) and no special characters or numbers',
     }),
     postalCode: z
       .string()
@@ -54,17 +54,17 @@ export const schema = (isBillingAddress: boolean) =>
         message: 'The postal code must contain at least one character',
       })
       .regex(/^[a-zA-Z0-9]*$/, {
-        message: 'The postal code must contain numbers or letters.',
+        message: 'The postal code must contain numbers or letters (A-Z, a-z).',
       }),
     country: z.string().nonempty('Select your country from the list'),
     billingStreet: !isBillingAddress
       ? z.string().min(1, {
-          message: 'Street must contain at least one character',
+          message: 'Street must contain at least one character (A-Z, a-z)',
         })
       : z.string().optional(),
     billingCity: !isBillingAddress
       ? z.string().regex(/^(?=.*[a-zA-Z])[a-zA-Z]*$/, {
-          message: 'City must contain at least one character and no special characters or numbers',
+          message: 'City must contain at least one character (A-Z, a-z) and no special characters or numbers',
         })
       : z.string().optional(),
     billingPostalCode: !isBillingAddress
@@ -74,7 +74,7 @@ export const schema = (isBillingAddress: boolean) =>
             message: 'The postal code must contain at least one character',
           })
           .regex(/^[a-zA-Z0-9]*$/, {
-            message: 'The postal code must contain numbers or letters.',
+            message: 'The postal code must contain numbers or letters (A-Z, a-z).',
           })
       : z.string().optional(),
     billingCountry: !isBillingAddress
