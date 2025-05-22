@@ -235,7 +235,7 @@ export const RegistrationForm = () => {
                 data={countries}
                 {...register('billingCountry')}
                 onChange={(value) => {
-                  setValue('country', value as string);
+                  setValue('billingCountry', value as string);
                   clearErrors('billingCountry');
                 }}
                 error={errors.billingCountry && errors.billingCountry.message}
