@@ -181,9 +181,11 @@ export const RegistrationForm = () => {
           label="Country"
           placeholder="Enter your country"
           data={countries}
-          defaultValue={countries[0].value}
           {...register('country')}
-          onChange={(value) => setValue('country', value as string)}
+          onChange={(value) => {
+            setValue('country', value as string);
+            clearErrors('country');
+          }}
           error={errors.country && errors.country.message}
         />
 
@@ -231,9 +233,11 @@ export const RegistrationForm = () => {
                 label="Country"
                 placeholder="Enter your country"
                 data={countries}
-                defaultValue={countries[0].value}
                 {...register('billingCountry')}
-                onChange={(value) => setValue('billingCountry', value as string)}
+                onChange={(value) => {
+                  setValue('country', value as string);
+                  clearErrors('billingCountry');
+                }}
                 error={errors.billingCountry && errors.billingCountry.message}
               />
             </div>
