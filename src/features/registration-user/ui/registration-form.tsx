@@ -35,6 +35,7 @@ export const RegistrationForm = () => {
   const navigate = useNavigate();
 
   const {
+    trigger,
     register,
     handleSubmit,
     setValue,
@@ -119,6 +120,7 @@ export const RegistrationForm = () => {
             onChange={(value) => {
               setValue('date', value || '');
               clearErrors('date');
+              trigger('date');
             }}
             error={errors.date && errors.date.message}
           />
