@@ -1,3 +1,5 @@
+import { ProductsList } from '@widgets/products-list';
+
 export const CatalogPage = () => {
-  return <h2>Catalog Page</h2>;
+  return <ProductsList />;
 };
