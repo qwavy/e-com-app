@@ -1,4 +1,4 @@
-import { Button, Card, Group, Image, Skeleton, Text } from '@mantine/core';
+import { Button, Card, Center, Group, Image, Loader, Skeleton, Text } from '@mantine/core';
 import { api } from '@shared/api/api';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ActiveFavoriteIcon from '../assets/active-favorite.svg';
 import CartIcon from '../assets/cart.svg';
 import FavoriteIcon from '../assets/favorite.svg';
-import { getPrice } from '../uutils';
+import { ProductPrice } from './product-price';
 
 interface Props {
   id: string;
@@ -17,13 +17,25 @@ export const ProductCard = ({ id }: Props) => {
   const [activeFavorite, setActiveFavorite] = useState(false);
   const navigate = useNavigate();
 
-  const { isPending, error, data } = useQuery({
+  const { isPending, error, data, isLoading } = useQuery({
     queryKey: ['product-projections', id],
-    queryFn: () => api?.api.productProjections().withId({ ID: id }).get().execute(),
+    queryFn: () =>
+      api?.api
+        .productProjections()
+        .withId({ ID: id })
+        .get({ queryArgs: { priceCurrency: 'USD' } })
+        .execute(),
   });
 
   if (error) {
     return 'An error has occurred: ' + error.message;
+  }
+  if (isPending) {
+    return (
+      <Center>
+        <Loader />;
+      </Center>
+    );
   }
 
   const addToFavorite = (id: string) => {
@@ -32,7 +44,7 @@ export const ProductCard = ({ id }: Props) => {
   };
 
   return (
-    <Skeleton visible={isPending}>
+    <Skeleton visible={isLoading}>
       <Card withBorder radius="md" onClick={() => navigate(`/${id}`)} className="cursor-pointer">
         <Card.Section>
           <Image
@@ -52,11 +64,10 @@ export const ProductCard = ({ id }: Props) => {
           {data?.body.description?.en}
         </Text>
 
-        {data?.body?.masterVariant?.prices?.[0]?.value && (
-          <Text size="lg" mb={10}>
-            {getPrice(data.body.masterVariant.prices[0].value)} $
-          </Text>
-        )}
+        <ProductPrice
+          priceObj={data?.body.masterVariant.prices[0].value}
+          discountedPriceObj={data?.body.masterVariant.prices[0].discounted?.value}
+        />
 
         <Group grow>
           <Button

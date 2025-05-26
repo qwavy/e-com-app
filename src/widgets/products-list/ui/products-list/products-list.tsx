@@ -18,7 +18,7 @@ export const ProductsList = () => {
     queryFn: () =>
       api?.api
         .products()
-        .get({ queryArgs: { limit: productsPerPage, offset: (page - 1) * productsPerPage } })
+        .get({ queryArgs: { limit: productsPerPage, offset: (page - 1) * productsPerPage, priceCurrency: 'USD' } })
         .execute(),
   });
 
