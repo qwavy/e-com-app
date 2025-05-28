@@ -1,5 +1,6 @@
 import { Button, Card, Group, Image, Skeleton, Text } from '@mantine/core';
 import { api } from '@shared/api/api';
+import { Paths } from '@shared/types/routerTypes';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +34,12 @@ export const ProductCard = ({ id }: Props) => {
 
   return (
     <Skeleton visible={isPending}>
-      <Card withBorder radius="md" onClick={() => navigate(`/${id}`)} className="cursor-pointer">
+      <Card
+        withBorder
+        radius="md"
+        onClick={() => navigate(Paths.Product.replace(':id', id))}
+        className="cursor-pointer"
+      >
         <Card.Section>
           <Image
             // eslint-disable-next-line max-len
@@ -64,7 +70,7 @@ export const ProductCard = ({ id }: Props) => {
               e.stopPropagation();
             }}
           >
-            <img src={CartIcon} />
+            <img src={CartIcon} alt="Cart icon" />
           </Button>
           <Button
             onClick={(e) => {
@@ -72,7 +78,7 @@ export const ProductCard = ({ id }: Props) => {
               addToFavorite(id);
             }}
           >
-            <img src={activeFavorite ? ActiveFavoriteIcon : FavoriteIcon} />
+            <img src={activeFavorite ? ActiveFavoriteIcon : FavoriteIcon} alt="Favorite icon" />
           </Button>
         </Group>
       </Card>

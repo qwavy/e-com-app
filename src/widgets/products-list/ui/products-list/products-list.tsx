@@ -35,7 +35,12 @@ export const ProductsList = () => {
           </div>
         ))}
       </div>
-      <Pagination total={Math.ceil(products?.body.total / productsPerPage)} mt={20} onChange={setPage} value={page} />
+      <Pagination
+        total={Math.ceil(products?.body.total ?? 0 / productsPerPage)}
+        mt={20}
+        onChange={setPage}
+        value={page}
+      />
     </Skeleton>
   );
 };
