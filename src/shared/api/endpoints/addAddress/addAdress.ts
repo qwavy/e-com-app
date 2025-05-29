@@ -1,19 +1,7 @@
 import { createApiClient } from '@shared/api/client/create-api-client';
+import { AddressProps } from '@shared/types/customerTypes';
 
-interface Props {
-  address: Address;
-  version: number;
-  id: string;
-}
-
-interface Address {
-  streetName: string;
-  postalCode: string;
-  city: string;
-  country: string;
-}
-
-export async function addAddress({ address, version, id }: Props) {
+export async function addAddress({ address, version, id }: AddressProps) {
   const api = createApiClient();
   const { streetName, postalCode, city, country } = address;
   const res = await api

@@ -1,10 +1,11 @@
 import { userStore } from '@entities/user/model/user-store';
-import { addAddress } from '@shared/api/endpoints/addAddress/addAdress';
+import { changePassword } from '@shared/api/endpoints/changePassword/changePassword';
+import { ChangePasswordProps } from '@shared/api/endpoints/changePassword/changePassword';
 import { SUCCESSFUL_RESPONSE_CODE } from '@shared/constants/constants';
 
-export const addAddressAction = async ({ data, id, version }) => {
+export const changePasswordAction = async ({ newPassword, currentPassword, id, version }: ChangePasswordProps) => {
   try {
-    const response = await addAddress({ address: data, id, version });
+    const response = await changePassword({ newPassword, currentPassword, id, version });
 
     if (response.statusCode === SUCCESSFUL_RESPONSE_CODE) {
       const customer = response.body;

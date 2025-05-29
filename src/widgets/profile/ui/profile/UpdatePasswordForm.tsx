@@ -1,11 +1,16 @@
+import { userStore } from '@entities/user/model/user-store';
 import { changePasswordSchema } from '@features/registration-user/model/registartion-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Group, PasswordInput } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { ChangePassword } from '@shared/types/customerTypes';
+import { changePasswordAction } from '@widgets/profile/model/changePassword-action';
+import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-export const UpdatePasswordForm = () => {
+export const UpdatePasswordForm = observer(() => {
+  const { user } = userStore;
   const [isEditable, setIsEditable] = useState(false);
 
   const bg = {
@@ -25,8 +30,30 @@ export const UpdatePasswordForm = () => {
   });
 
   const changePassword: SubmitHandler<ChangePassword> = async (data) => {
+    const response = await changePasswordAction({
+      newPassword: data.newPassword,
+      currentPassword: data.password,
+      id: user?.id ?? '',
+      version: user?.version ?? 1,
+    });
     setIsEditable(false);
-    console.log(data);
+    if (response.error) {
+      notifications.show({
+        position: 'top-center',
+        title: 'Error',
+        autoClose: 8000,
+        message: response.error,
+        color: 'red',
+      });
+    } else {
+      notifications.show({
+        position: 'top-center',
+        autoClose: 3000,
+        message: 'Your password was successfully changed!',
+        color: 'green',
+      });
+      close();
+    }
   };
 
   return (
@@ -68,4 +95,4 @@ export const UpdatePasswordForm = () => {
       </Group>
     </form>
   );
-};
+});

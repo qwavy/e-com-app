@@ -50,3 +50,16 @@ export interface UpdatePersonalInfoCustomerProps {
   id: string;
   version: number;
 }
+
+export interface AddressProps {
+  address: Address;
+  version: number;
+  id: string;
+}
+
+export interface Address {
+  streetName: string;
+  postalCode: string;
+  city: string;
+  country: string;
+}
