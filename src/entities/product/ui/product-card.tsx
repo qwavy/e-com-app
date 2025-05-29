@@ -1,6 +1,5 @@
-import { Button, Card, Center, Group, Image, Loader, Skeleton, Text } from '@mantine/core';
-import { api } from '@shared/api/api';
-import { useQuery } from '@tanstack/react-query';
+import { Product } from '@commercetools/platform-sdk';
+import { Button, Card, Group, Image, Text } from '@mantine/core';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,33 +9,13 @@ import FavoriteIcon from '../assets/favorite.svg';
 import { ProductPrice } from './product-price';
 
 interface Props {
-  id: string;
+  product: Product;
 }
 
-export const ProductCard = ({ id }: Props) => {
+export const ProductCard = ({ product }: Props) => {
   const [activeFavorite, setActiveFavorite] = useState(false);
   const navigate = useNavigate();
-
-  const { isPending, error, data, isLoading } = useQuery({
-    queryKey: ['product-projections', id],
-    queryFn: () =>
-      api?.api
-        .productProjections()
-        .withId({ ID: id })
-        .get({ queryArgs: { priceCurrency: 'USD' } })
-        .execute(),
-  });
-
-  if (error) {
-    return 'An error has occurred: ' + error.message;
-  }
-  if (isPending) {
-    return (
-      <Center>
-        <Loader />;
-      </Center>
-    );
-  }
+  const productInfo = product.masterData.current;
 
   const addToFavorite = (id: string) => {
     setActiveFavorite(!activeFavorite);
@@ -44,49 +23,50 @@ export const ProductCard = ({ id }: Props) => {
   };
 
   return (
-    <Skeleton visible={isLoading}>
-      <Card withBorder radius="md" onClick={() => navigate(`/${id}`)} className="cursor-pointer">
-        <Card.Section>
-          <Image
+    <Card withBorder radius="md" onClick={() => navigate(`/${product.id}`)} className="cursor-pointer">
+      <Card.Section>
+        <Image
+          src={
+            productInfo.masterVariant?.images[0]?.url ??
             // eslint-disable-next-line max-len
-            src="https://images.samsung.com/is/image/samsung/p6pim/kz_ru/qe75q70dauxce/gallery/kz-ru-qled-q70d-qe75q70dauxce-541256605?$684_547_PNG$"
-            alt="product card"
-            h={160}
-            fit="scale-down"
-          />
-        </Card.Section>
-
-        <Text fw={500} size="lg" mt="md">
-          {data?.body.name.en}
-        </Text>
-
-        <Text size="sm" c="dimmed" mb={10}>
-          {data?.body.description?.en}
-        </Text>
-
-        <ProductPrice
-          priceObj={data?.body.masterVariant.prices[0].value}
-          discountedPriceObj={data?.body.masterVariant.prices[0].discounted?.value}
+            'https://images.samsung.com/is/image/samsung/p6pim/kz_ru/qe75q70dauxce/gallery/kz-ru-qled-q70d-qe75q70dauxce-541256605?$684_547_PNG$'
+          }
+          alt="product card"
+          h={160}
+          fit="contain"
         />
+      </Card.Section>
 
-        <Group grow>
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <img src={CartIcon} />
-          </Button>
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              addToFavorite(id);
-            }}
-          >
-            <img src={activeFavorite ? ActiveFavoriteIcon : FavoriteIcon} />
-          </Button>
-        </Group>
-      </Card>
-    </Skeleton>
+      <Text fw={500} size="lg" mt="md">
+        {productInfo.name.en}
+      </Text>
+
+      <Text size="sm" c="dimmed" mb={10}>
+        {productInfo.description?.en}
+      </Text>
+
+      <ProductPrice
+        priceObj={productInfo.masterVariant.price?.value}
+        discountedPriceObj={productInfo.masterVariant.price?.discounted?.value}
+      />
+
+      <Group grow>
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <img src={CartIcon} />
+        </Button>
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            addToFavorite(product.id);
+          }}
+        >
+          <img src={activeFavorite ? ActiveFavoriteIcon : FavoriteIcon} />
+        </Button>
+      </Group>
+    </Card>
   );
 };
