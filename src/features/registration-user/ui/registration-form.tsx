@@ -35,7 +35,7 @@ export const RegistrationForm = () => {
       notifications.show({
         position: 'top-center',
         title: 'Error',
-        autoClose: 10000,
+        autoClose: 8000,
         message: response.error,
         color: 'red',
       });
@@ -132,9 +132,9 @@ export const RegistrationForm = () => {
             w={{ base: 280, sm: 360, lg: 540 }}
             withAsterisk
             label="Street"
-            {...register('street')}
+            {...register('streetName')}
             placeholder="Enter your street"
-            error={errors.street && errors.street.message}
+            error={errors.streetName && errors.streetName.message}
           />
         </div>
 

@@ -5,7 +5,7 @@ import { ChangePassword } from '@shared/types/customerTypes';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-export const ChangePasswordForm = () => {
+export const UpdatePasswordForm = () => {
   const [isEditable, setIsEditable] = useState(false);
 
   const bg = {

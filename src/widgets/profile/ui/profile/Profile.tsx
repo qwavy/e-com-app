@@ -1,34 +1,30 @@
 import { userStore } from '@entities/user/model/user-store';
+import { PersonalInfo } from '@shared/types/customerTypes';
+import { ShippingAddress } from '@shared/types/customerTypes';
 import { observer } from 'mobx-react-lite';
 
-import { ChangePasswordForm } from './PasswordField';
-import { PersonalInformationForm } from './PersonalInformationForm';
+import { UpdateAddressForm } from './AddressList';
+import { UpdatePasswordForm } from './UpdatePasswordForm';
+import { UpdatePersonalInformationForm } from './UpdatePersonalInformationForm';
 
 export const Profile = observer(() => {
   const { user } = userStore;
 
-  /*
-  user?.addresses.map((item) => {
-    console.log(item.streetName);
-  });
-*/
-  /*const value = {
-    firstName: user?.firstName ?? '',
-    lastName: user?.lastName ?? '',
-    email: user?.email ?? '',
-    dateOfBirth: user?.dateOfBirth ?? '',
+  const addressInfo = {
+    defaultBillingAddressId: user?.defaultBillingAddressId,
+    defaultShippingAddressId: user?.defaultShippingAddressId,
+    billingAddressIds: user?.billingAddressIds,
+    shippingAddressIds: user?.shippingAddressIds,
   };
-*/
-  // const password = user?.password ?? '';
-
-  //console.log(id, '********', version);
 
   return (
     <>
-      <h2>Identity change</h2>
-      <PersonalInformationForm customer={user} />
-      <h2>Password change</h2>
-      <ChangePasswordForm />
+      <h2>Personal information</h2>
+      <UpdatePersonalInformationForm customer={user as PersonalInfo} />
+      <h2>Password</h2>
+      <UpdatePasswordForm />
+      <h2>Address list</h2>
+      <UpdateAddressForm data={user?.addresses as ShippingAddress[]} addressInfo={addressInfo} />
     </>
   );
 });

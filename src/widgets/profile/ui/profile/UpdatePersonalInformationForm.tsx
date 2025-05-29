@@ -2,12 +2,17 @@ import { personalInformationSchema } from '@features/registration-user/model/reg
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Group, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
+import { notifications } from '@mantine/notifications';
 import { PersonalInfo } from '@shared/types/customerTypes';
 import { updatePersonalInfoAction } from '@widgets/profile/model/updatePersonalInfo-action';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-export const PersonalInformationForm = ({ customer }) => {
+interface CustomerProps {
+  customer: PersonalInfo;
+}
+
+export const UpdatePersonalInformationForm = ({ customer }: CustomerProps) => {
   const [isEditable, setIsEditable] = useState(false);
   const [firstName, setFirstName] = useState(customer?.firstName);
   const [lastName, setLastName] = useState(customer?.lastName);
@@ -33,13 +38,28 @@ export const PersonalInformationForm = ({ customer }) => {
     mode: 'onChange',
   });
 
-  const id = customer.id;
-  const version = customer.version;
+  const id = customer.id ?? '';
+  const version = customer.version ?? 1;
 
   const changePersonalInfo: SubmitHandler<PersonalInfo> = async (data) => {
     setIsEditable(false);
-    const a = await updatePersonalInfoAction({ data, id, version });
-    console.log(a, '***********');
+    const response = await updatePersonalInfoAction({ data, id, version });
+    if (response.error) {
+      notifications.show({
+        position: 'top-center',
+        title: 'Error',
+        autoClose: 8000,
+        message: response.error,
+        color: 'red',
+      });
+    } else {
+      notifications.show({
+        position: 'top-center',
+        autoClose: 3000,
+        message: 'Your data was successfully updated!',
+        color: 'green',
+      });
+    }
   };
 
   return (
@@ -91,7 +111,7 @@ export const PersonalInformationForm = ({ customer }) => {
               setValue('dateOfBirth', value || '');
               clearErrors('dateOfBirth');
               trigger('dateOfBirth');
-              setDateOfBirth(value || undefined);
+              setDateOfBirth(value || '');
             }}
             value={dateOfBirth}
             error={errors.dateOfBirth && errors.dateOfBirth.message}

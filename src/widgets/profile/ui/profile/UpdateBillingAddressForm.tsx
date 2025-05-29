@@ -2,7 +2,7 @@ import { countries } from '@features/registration-user/contracts/countries';
 import { Select, TextInput } from '@mantine/core';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const BillingAddressFields = ({ register, errors, setValue, clearErrors }: any) => {
+export const UpdateBillingAddressForm = ({ register, errors, setValue, clearErrors }: any) => {
   return (
     <>
       <div>

@@ -12,15 +12,18 @@ export type PersonalInfo = {
   lastName: string;
   email: string;
   dateOfBirth: string;
+  id?: string;
+  version?: number;
 };
 
 export type ShippingAddress = {
-  street: string;
+  streetName: string;
   city: string;
   postalCode: string;
   country: string;
-  billingAddress: boolean;
-  defaultAddress: boolean;
+  billingAddress?: boolean;
+  defaultAddress?: boolean;
+  id?: string;
 };
 
 export type BillingAddress = {
@@ -28,6 +31,14 @@ export type BillingAddress = {
   billingCity?: string;
   billingPostalCode?: string;
   billingCountry?: string;
+  id?: string;
+};
+
+export type AddressInfo = {
+  defaultBillingAddressId: string | undefined;
+  defaultShippingAddressId: string | undefined;
+  billingAddressIds: string[] | undefined;
+  shippingAddressIds: string[] | undefined;
 };
 
 export type RegistrationFields = PersonalInfo & ShippingAddress & BillingAddress & IPassword;

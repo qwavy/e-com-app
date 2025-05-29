@@ -57,7 +57,7 @@ export const personalInformationSchema = z.object({
 });
 
 export const shippingAddressSchema = z.object({
-  street: z.string().min(1, {
+  streetName: z.string().min(1, {
     message: 'Street must contain at least one character (A-Z, a-z)',
   }),
   city: z.string().regex(/^(?=.*[a-zA-Z])[a-zA-Z]*$/, {
@@ -72,8 +72,8 @@ export const shippingAddressSchema = z.object({
       message: 'The postal code must contain numbers or letters (A-Z, a-z).',
     }),
   country: z.string().nonempty('Select your country from the list'),
-  defaultAddress: z.boolean(),
-  billingAddress: z.boolean(),
+  defaultAddress: z.boolean().optional(),
+  billingAddress: z.boolean().optional(),
 });
 
 export const billingAddressSchema = (isBillingAddress: boolean) =>

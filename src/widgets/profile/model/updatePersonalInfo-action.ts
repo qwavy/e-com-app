@@ -17,11 +17,10 @@ export const updatePersonalInfoAction = async ({ data, id, version }: UpdatePers
       userStore.setUser(customer);
       return { error: '', customer };
     } else {
-      const error = response.error as Error;
+      const error = response.error;
       return { error: error.message };
     }
   } catch (e) {
-    console.log(e, 'updateAction');
     const error = e instanceof Error ? e.message : 'Unexpected error';
     return { error };
   }
