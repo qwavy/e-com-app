@@ -17,6 +17,9 @@ export const ProductCard = ({ product }: Props) => {
   const [activeFavorite, setActiveFavorite] = useState(false);
   const navigate = useNavigate();
   const productInfo = product.masterData.current;
+  const priceObj = productInfo.masterVariant.prices?.[0]?.value;
+  const discountedPriceObj = productInfo.masterVariant.prices?.[0]?.discounted?.value;
+  const imageObj = productInfo.masterVariant.images?.[0]?.url;
 
   const addToFavorite = (id: string) => {
     setActiveFavorite(!activeFavorite);
@@ -33,7 +36,7 @@ export const ProductCard = ({ product }: Props) => {
       <Card.Section>
         <Image
           src={
-            productInfo.masterVariant?.images[0]?.url ??
+            imageObj ??
             // eslint-disable-next-line max-len
             'https://images.samsung.com/is/image/samsung/p6pim/kz_ru/qe75q70dauxce/gallery/kz-ru-qled-q70d-qe75q70dauxce-541256605?$684_547_PNG$'
           }
@@ -51,10 +54,7 @@ export const ProductCard = ({ product }: Props) => {
         {productInfo.description?.en}
       </Text>
 
-      <ProductPrice
-        priceObj={productInfo.masterVariant.price?.value}
-        discountedPriceObj={productInfo.masterVariant.price?.discounted?.value}
-      />
+      <ProductPrice priceObj={priceObj} discountedPriceObj={discountedPriceObj} />
 
       <Group grow>
         <Button

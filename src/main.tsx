@@ -1,6 +1,7 @@
 import { userStore } from '@entities/user/model/user-store';
 import { buildAnonymousClient } from '@shared/api/client/build-anonymous-client.ts';
 import { restoreSession } from '@shared/api/client/restore-session.ts';
+import { apiStore } from '@shared/api/store/api-store';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -13,12 +14,18 @@ async function main() {
   const refreshToken = localStorage.getItem('ct_refresh_token');
   try {
     if (refreshToken && refreshToken.trim() !== '') {
-      restoreSession();
+      const client = await restoreSession();
+      if (client !== null) {
+        apiStore.setApi(client);
+      } else {
+        throw new Error('restoreSession returned null');
+      }
     } else {
       throw new Error('No refresh token found');
     }
   } catch {
-    await buildAnonymousClient();
+    const anonymousClient = await buildAnonymousClient();
+    apiStore.setApi(anonymousClient);
   }
 
   const container = document.createElement('div');

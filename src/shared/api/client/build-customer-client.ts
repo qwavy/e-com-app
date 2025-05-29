@@ -2,9 +2,9 @@ import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder, Customer } from '@commercetools/platform-sdk';
 import { CLIENT_ID, CLIENT_SECRET, OAUTH_URL, PROJECT_KEY, scope } from '@shared/constants/constants';
 
-import { setApi } from '../api';
 import { createClientBuilder } from '../base/client-builder';
 import { tokenCache } from '../base/token-cache';
+import { apiStore } from '../store/api-store';
 
 type LoginOptions =
   | { email: string; password: string; refreshToken?: never }
@@ -84,9 +84,7 @@ export async function buildCustomerClient(options: LoginOptions): Promise<Custom
     refreshToken: tokens?.refreshToken,
   };
 
-  console.log(`User logged in: ${customerResponse.body.firstName} ${customerResponse.body.lastName}`);
-
-  setApi(apiWithTokens);
+  apiStore.setApi(apiWithTokens);
 
   return {
     customer: customerResponse.body,

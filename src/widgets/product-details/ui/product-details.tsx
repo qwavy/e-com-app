@@ -1,8 +1,9 @@
+import { ProductPrice } from '@entities/product/ui/product-price';
 import { BasketButton } from '@features/basket-button/index';
 import { FavoriteButton } from '@features/favorite-button/index';
 import { Grid, Group, Image, Skeleton, Text } from '@mantine/core';
 import { useProductDetails } from '@shared/api/endpoints/product/get-product';
-import { getPrice } from '@shared/utils/get-price';
+// import { getPrice } from '@shared/utils/get-price';
 import { useParams } from 'react-router-dom';
 
 import styles from './product-details.module.css';
@@ -15,8 +16,13 @@ export const ProductDetails = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const product = data?.body;
-  console.log(product);
+  const productInfo = data?.masterData.current;
+  if (!productInfo) {
+    return null;
+  }
+  const priceObj = productInfo.masterVariant.prices?.[0]?.value;
+  const discountedPriceObj = productInfo.masterVariant.prices?.[0]?.discounted?.value;
+  const imageObj = productInfo.masterVariant.images?.[0]?.url;
 
   return (
     <Skeleton visible={isPending}>
@@ -24,15 +30,10 @@ export const ProductDetails = () => {
         <Grid gutter="30">
           <Grid.Col span={{ base: 12, xs: 6 }} className={styles.image}>
             <div className={styles['main-image']}>
-              <Image
-                src={product?.masterVariant.images?.[0]?.url}
-                alt={product?.name?.en}
-                fit="contain"
-                style={{ width: '70%', height: 'auto' }}
-              />
+              <Image src={imageObj} alt={productInfo.name.en} fit="contain" style={{ width: '70%', height: 'auto' }} />
             </div>
             <Group className={styles.images}>
-              {product?.masterVariant.images?.map((img, index) => (
+              {productInfo?.masterVariant.images?.map((img, index) => (
                 <Image
                   key={index}
                   src={img.url}
@@ -50,18 +51,16 @@ export const ProductDetails = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, xs: 6 }} className={styles.content}>
             <Text size="xl" fw={600}>
-              {product?.name?.en}
+              {productInfo.name.en}
             </Text>
-            {product?.masterVariant?.prices?.[0]?.value ? (
-              <Text size="lg">{getPrice(product.masterVariant.prices[0].value)} $</Text>
-            ) : null}
+            <ProductPrice priceObj={priceObj} discountedPriceObj={discountedPriceObj} />
             <Group mt="md" style={{ gap: '10px' }}>
               <BasketButton productId={id || ''} className={styles.basket} />
               <FavoriteButton productId={id || ''} className={styles.favorite} />
             </Group>
           </Grid.Col>
         </Grid>
-        <Text style={{ marginTop: '20px', width: '100%' }}>{product?.description?.en}</Text>
+        <Text style={{ marginTop: '20px', width: '100%' }}>{productInfo.description?.en}</Text>
       </Group>
     </Skeleton>
   );
