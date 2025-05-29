@@ -1,17 +1,22 @@
 import { Box, Button, Collapse, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-export const CategoryFilter = () => {
-  const [opened, { toggle }] = useDisclosure(false);
+interface Props {
+  name: string;
+}
 
+export const CategoryFilter = ({ category }: Props) => {
+  const [opened, { toggle }] = useDisclosure(false);
+  console.log('good');
+  console.log(name);
   return (
     <Box maw={400} mx="auto">
       <Group justify="center" mb={5}>
-        <Button onClick={toggle}>Toggle content</Button>
+        <Button onClick={toggle}>{category.name.en}</Button>
       </Group>
 
       <Collapse in={opened}>
-        <Text>{/* ... content */}</Text>
+        <Text>{category.name.en}</Text>
       </Collapse>
     </Box>
   );
