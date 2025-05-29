@@ -10,13 +10,6 @@ import { UpdatePersonalInformationForm } from './UpdatePersonalInformationForm';
 export const Profile = observer(() => {
   const { user } = userStore;
 
-  const addressInfo = {
-    defaultBillingAddressId: user?.defaultBillingAddressId,
-    defaultShippingAddressId: user?.defaultShippingAddressId,
-    billingAddressIds: user?.billingAddressIds,
-    shippingAddressIds: user?.shippingAddressIds,
-  };
-
   return (
     <>
       <h2>Personal information</h2>
@@ -24,7 +17,7 @@ export const Profile = observer(() => {
       <h2>Password</h2>
       <UpdatePasswordForm />
       <h2>Address list</h2>
-      <UpdateAddressForm data={user?.addresses as ShippingAddress[]} addressInfo={addressInfo} />
+      <UpdateAddressForm data={user?.addresses as ShippingAddress[]} />
     </>
   );
 });

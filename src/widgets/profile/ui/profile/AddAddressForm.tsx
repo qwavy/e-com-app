@@ -5,24 +5,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Checkbox, Select, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { ShippingAddress } from '@shared/types/customerTypes';
-import { updateAddressAction } from '@widgets/profile/model/updateAddress-action';
+import { addAddressAction } from '@widgets/profile/model/addAddress-action';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface AddressProps {
-  address: ShippingAddress;
   close: () => void;
 }
 
-export const UpdateShippingAddressForm = observer(({ address, close }: AddressProps) => {
+export const AddAddressForm = observer(({ close }: AddressProps) => {
   const { user } = userStore;
-  const isDefaultBillingAddress = user?.defaultBillingAddressId ? true : false;
-  const [defaultAddress, setDefaultAddress] = useState(isDefaultBillingAddress);
-  const [city, setCity] = useState(address?.city);
-  const [, setCountry] = useState(address?.country);
-  const [postalCode, setPostalCode] = useState(address?.postalCode);
-  const [streetName, setStreetName] = useState(address?.streetName);
+  const [defaultAddress, setDefaultAddress] = useState(false);
 
   const {
     register,
@@ -35,12 +29,11 @@ export const UpdateShippingAddressForm = observer(({ address, close }: AddressPr
     mode: 'onChange',
   });
 
-  const addressId = address?.id;
   const version = user?.version;
-  const userId = user?.id;
+  const id = user?.id;
 
   const updateAddress: SubmitHandler<ShippingAddress> = async (data) => {
-    const response = await updateAddressAction({ data, addressId, userId, version });
+    const response = await addAddressAction({ data, id, version });
     if (response.error) {
       notifications.show({
         position: 'top-center',
@@ -53,7 +46,7 @@ export const UpdateShippingAddressForm = observer(({ address, close }: AddressPr
       notifications.show({
         position: 'top-center',
         autoClose: 3000,
-        message: 'Your address was successfully updated!',
+        message: 'Your new address was successfully add!',
         color: 'green',
       });
       close();
@@ -69,13 +62,9 @@ export const UpdateShippingAddressForm = observer(({ address, close }: AddressPr
             withAsterisk
             label="Street"
             {...register('streetName')}
-            error={errors.streetName && errors.streetName.message}
+            placeholder="Enter your street"
             style={{ marginBottom: '2rem' }}
-            value={streetName}
-            onChange={(e) => {
-              clearErrors('streetName');
-              setStreetName(e.target.value);
-            }}
+            error={errors.streetName && errors.streetName.message}
           />
         </div>
 
@@ -86,13 +75,8 @@ export const UpdateShippingAddressForm = observer(({ address, close }: AddressPr
             label="City"
             {...register('city')}
             placeholder="Enter your city"
-            error={errors.city && errors.city.message}
             style={{ marginBottom: '2rem' }}
-            value={city}
-            onChange={(e) => {
-              clearErrors('city');
-              setCity(e.target.value);
-            }}
+            error={errors.city && errors.city.message}
           />
         </div>
 
@@ -103,13 +87,8 @@ export const UpdateShippingAddressForm = observer(({ address, close }: AddressPr
             label="Postal Code"
             {...register('postalCode')}
             placeholder="Enter your postal code"
-            error={errors.postalCode && errors.postalCode.message}
             style={{ marginBottom: '2rem' }}
-            value={postalCode}
-            onChange={(e) => {
-              clearErrors('postalCode');
-              setPostalCode(e.target.value);
-            }}
+            error={errors.postalCode && errors.postalCode.message}
           />
         </div>
 
@@ -118,15 +97,14 @@ export const UpdateShippingAddressForm = observer(({ address, close }: AddressPr
           withAsterisk
           label="Country"
           placeholder="Enter your country"
+          style={{ marginBottom: '2rem' }}
           data={countries}
           {...register('country')}
           onChange={(value) => {
             setValue('country', value as string);
             clearErrors('country');
-            setCountry(value as string);
           }}
           error={errors.country && errors.country.message}
-          style={{ marginBottom: '2rem' }}
         />
 
         <Checkbox
@@ -136,6 +114,7 @@ export const UpdateShippingAddressForm = observer(({ address, close }: AddressPr
           checked={defaultAddress}
           style={{ marginBottom: '2rem' }}
         />
+
         <Button type="submit">Save</Button>
       </form>
     </>

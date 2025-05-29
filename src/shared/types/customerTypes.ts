@@ -39,6 +39,8 @@ export type AddressInfo = {
   defaultShippingAddressId: string | undefined;
   billingAddressIds: string[] | undefined;
   shippingAddressIds: string[] | undefined;
+  version: number | undefined;
+  id: string | undefined;
 };
 
 export type RegistrationFields = PersonalInfo & ShippingAddress & BillingAddress & IPassword;
