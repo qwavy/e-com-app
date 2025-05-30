@@ -11,7 +11,7 @@ import './index.css';
 
 async function main() {
   await userStore.restoreSession();
-  const refreshToken = localStorage.getItem('ct_refresh_token');
+  const refreshToken = localStorage.getItem('ct_refresh_token_customer');
   try {
     if (refreshToken && refreshToken.trim() !== '') {
       const client = await restoreSession();

@@ -31,6 +31,7 @@ function clearAccessTokenKeepRefresh() {
 }
 
 export async function buildCustomerClient(options: LoginOptions): Promise<CustomerClientResult> {
+  tokenCache.setTokenType('customer');
   clearAccessTokenKeepRefresh();
   const clientBuilder = createClientBuilder().withProjectKey(PROJECT_KEY);
 

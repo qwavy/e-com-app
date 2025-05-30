@@ -1,7 +1,7 @@
 import { ProductPrice } from '@entities/product/ui/product-price';
 import { BasketButton } from '@features/basket-button/index';
 import { FavoriteButton } from '@features/favorite-button/index';
-import { Grid, Group, Image, Skeleton, Text } from '@mantine/core';
+import { Group, Image, Skeleton, Text } from '@mantine/core';
 import { useProductDetails } from '@shared/api/endpoints/product/get-product';
 // import { getPrice } from '@shared/utils/get-price';
 import { useParams } from 'react-router-dom';
@@ -27,10 +27,10 @@ export const ProductDetails = () => {
   return (
     <Skeleton visible={isPending}>
       <Group className={styles.container}>
-        <Grid gutter="30">
-          <Grid.Col span={{ base: 12, xs: 6 }} className={styles.image}>
+        <div className={styles.box}>
+          <div className={styles.image}>
             <div className={styles['main-image']}>
-              <Image src={imageObj} alt={productInfo.name.en} fit="contain" style={{ width: '70%', height: 'auto' }} />
+              <Image src={imageObj} alt={productInfo.name.en} fit="contain" style={{ width: '70%', height: '70%' }} />
             </div>
             <Group className={styles.images}>
               {productInfo?.masterVariant.images?.map((img, index) => (
@@ -48,8 +48,8 @@ export const ProductDetails = () => {
                 />
               ))}
             </Group>
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, xs: 6 }} className={styles.content}>
+          </div>
+          <div className={styles.content}>
             <Text size="xl" fw={600}>
               {productInfo.name.en}
             </Text>
@@ -58,8 +58,8 @@ export const ProductDetails = () => {
               <BasketButton productId={id || ''} className={styles.basket} />
               <FavoriteButton productId={id || ''} className={styles.favorite} />
             </Group>
-          </Grid.Col>
-        </Grid>
+          </div>
+        </div>
         <Text style={{ marginTop: '20px', width: '100%' }}>{productInfo.description?.en}</Text>
       </Group>
     </Skeleton>

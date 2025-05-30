@@ -5,7 +5,7 @@ import { CustomerClientResult } from './build-customer-client';
 import { buildCustomerClient } from './build-customer-client';
 
 export async function restoreSession(): Promise<CustomerClientResult | null> {
-  const refreshToken = localStorage.getItem('ct_refresh_token');
+  const refreshToken = localStorage.getItem('ct_refresh_token_customer');
   if (!refreshToken) {
     return null;
   }
@@ -21,12 +21,12 @@ export async function restoreSession(): Promise<CustomerClientResult | null> {
         expirationTime: Date.now() + 60 * 60 * 1000,
       });
       if (result.refreshToken !== undefined) {
-        localStorage.setItem('ct_refresh_token', result.refreshToken);
+        localStorage.setItem('ct_refresh_token_customer', result.refreshToken);
       }
     }
     return result;
   } catch {
-    localStorage.removeItem('ct_refresh_token');
+    localStorage.removeItem('ct_refresh_token_customer');
     return null;
   }
 }
