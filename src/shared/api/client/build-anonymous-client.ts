@@ -6,6 +6,7 @@ import { tokenCache } from '../base/token-cache';
 
 export async function buildAnonymousClient() {
   tokenCache.clear();
+  tokenCache.setTokenType('anonymous');
 
   const client = createClientBuilder()
     .withProjectKey(PROJECT_KEY)
