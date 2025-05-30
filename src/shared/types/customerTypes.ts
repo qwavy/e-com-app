@@ -52,9 +52,11 @@ export interface UpdatePersonalInfoCustomerProps {
 }
 
 export interface AddressProps {
-  address: Address;
-  version: number;
-  id: string;
+  data: Address;
+  version: number | undefined;
+  id?: string;
+  userId?: string;
+  addressId?: string;
 }
 
 export interface Address {
@@ -62,4 +64,5 @@ export interface Address {
   postalCode: string;
   city: string;
   country: string;
+  defaultAddress?: boolean;
 }

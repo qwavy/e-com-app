@@ -2,8 +2,8 @@ import { userStore } from '@entities/user/model/user-store';
 import { changePasswordSchema } from '@features/registration-user/model/registartion-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Group, PasswordInput } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import { ChangePassword } from '@shared/types/customerTypes';
+import { message } from '@shared/utils/message';
 import { changePasswordAction } from '@widgets/profile/model/changePassword-action';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
@@ -23,6 +23,7 @@ export const UpdatePasswordForm = observer(() => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<ChangePassword>({
     resolver: zodResolver(changePasswordSchema),
@@ -38,21 +39,10 @@ export const UpdatePasswordForm = observer(() => {
     });
     setIsEditable(false);
     if (response.error) {
-      notifications.show({
-        position: 'top-center',
-        title: 'Error',
-        autoClose: 8000,
-        message: response.error,
-        color: 'red',
-      });
+      message({ message: response.error, title: 'Error' });
     } else {
-      notifications.show({
-        position: 'top-center',
-        autoClose: 3000,
-        message: 'Your password was successfully changed!',
-        color: 'green',
-      });
-      close();
+      message({ message: 'Your password was successfully changed!' });
+      reset();
     }
   };
 

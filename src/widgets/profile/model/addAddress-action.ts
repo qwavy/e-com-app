@@ -1,10 +1,11 @@
 import { userStore } from '@entities/user/model/user-store';
 import { addAddress } from '@shared/api/endpoints/addAddress/addAdress';
 import { SUCCESSFUL_RESPONSE_CODE } from '@shared/constants/constants';
+import { AddressProps } from '@shared/types/customerTypes';
 
-export const addAddressAction = async ({ data, id, version }) => {
+export const addAddressAction = async ({ data, id, version }: AddressProps) => {
   try {
-    const response = await addAddress({ address: data, id, version });
+    const response = await addAddress({ data, id, version });
 
     if (response.statusCode === SUCCESSFUL_RESPONSE_CODE) {
       const customer = response.body;

@@ -1,7 +1,13 @@
+import { countries } from '@features/registration-user/contracts/countries';
 import { createApiClient } from '@shared/api/client/create-api-client';
+import { AddressProps } from '@shared/types/customerTypes';
 
-export const updateAddressCustomer = async ({ data, userId, addressId, version }) => {
-  console.log(data);
+function findCountryCode(countryName: string) {
+  return countries.find((c) => c.label === countryName)?.value;
+}
+
+export const updateAddressCustomer = async ({ data, userId = '', addressId, version = 1 }: AddressProps) => {
+  const country = findCountryCode(data.country) ?? '';
   const api = createApiClient();
   const res = await api
     .customers()
@@ -14,7 +20,7 @@ export const updateAddressCustomer = async ({ data, userId, addressId, version }
             action: 'changeAddress',
             addressId,
             address: {
-              country: data.country,
+              country,
               postalCode: data.postalCode,
               city: data.city,
               streetName: data.streetName,

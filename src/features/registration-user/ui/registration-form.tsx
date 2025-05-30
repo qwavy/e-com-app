@@ -2,8 +2,8 @@ import { countries } from '@features/registration-user/contracts/countries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Anchor, Button, Checkbox, PasswordInput, Select, Text, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
-import { notifications } from '@mantine/notifications';
 import { RegistrationFields } from '@shared/types/customerTypes';
+import { message } from '@shared/utils/message';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -32,20 +32,9 @@ export const RegistrationForm = () => {
   const signin: SubmitHandler<RegistrationFields> = async (data) => {
     const response = await registerAction(data);
     if (response.error) {
-      notifications.show({
-        position: 'top-center',
-        title: 'Error',
-        autoClose: 8000,
-        message: response.error,
-        color: 'red',
-      });
+      message({ message: response.error, title: 'Error' });
     } else {
-      notifications.show({
-        position: 'top-center',
-        autoClose: 3000,
-        message: 'Registration successful!',
-        color: 'green',
-      });
+      message({ message: 'Registration successful!' });
       navigate('/');
     }
   };

@@ -2,8 +2,8 @@ import { personalInformationSchema } from '@features/registration-user/model/reg
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Group, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
-import { notifications } from '@mantine/notifications';
 import { PersonalInfo } from '@shared/types/customerTypes';
+import { message } from '@shared/utils/message';
 import { updatePersonalInfoAction } from '@widgets/profile/model/updatePersonalInfo-action';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -45,20 +45,10 @@ export const UpdatePersonalInformationForm = ({ customer }: CustomerProps) => {
     setIsEditable(false);
     const response = await updatePersonalInfoAction({ data, id, version });
     if (response.error) {
-      notifications.show({
-        position: 'top-center',
-        title: 'Error',
-        autoClose: 8000,
-        message: response.error,
-        color: 'red',
-      });
+      message({ message: response.error, title: 'Error' });
     } else {
-      notifications.show({
-        position: 'top-center',
-        autoClose: 3000,
-        message: 'Your data was successfully updated!',
-        color: 'green',
-      });
+      message({ message: 'Your personal information was successfully updated!' });
+      close();
     }
   };
 

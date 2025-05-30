@@ -2,8 +2,8 @@ import { userStore } from '@entities/user/model/user-store';
 import { Card, Modal, Text } from '@mantine/core';
 import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
 import { ShippingAddress } from '@shared/types/customerTypes';
+import { message } from '@shared/utils/message';
 import { deleteAddressAction } from '@widgets/profile/model/deleteAddress-action';
 import { observer } from 'mobx-react-lite';
 
@@ -19,25 +19,14 @@ export const AddressCard = observer(({ address }: AddressProps) => {
   const addressId = address?.id ?? '';
   const version = user?.version ?? 1;
   const id = user?.id ?? '';
+  console.log(address.defaultAddress, '****');
 
   const deleteAddress = async () => {
     const response = await deleteAddressAction({ addressId, id, version });
     if (response.error) {
-      notifications.show({
-        position: 'top-center',
-        title: 'Error',
-        autoClose: 8000,
-        message: response.error,
-        color: 'red',
-      });
+      message({ message: response.error, title: 'Error' });
     } else {
-      notifications.show({
-        position: 'top-center',
-        autoClose: 3000,
-        message: 'Your address was successfully deleted!',
-        color: 'green',
-      });
-      close();
+      message({ message: 'Your address was successfully deleted!' });
     }
   };
   return (
