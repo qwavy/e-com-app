@@ -23,6 +23,7 @@ export const ProductDetails = () => {
   const priceObj = productInfo.masterVariant.prices?.[0]?.value;
   const discountedPriceObj = productInfo.masterVariant.prices?.[0]?.discounted?.value;
 
+
   return (
     <Skeleton visible={isPending}>
       <Group className={styles.container}>

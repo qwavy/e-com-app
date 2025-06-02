@@ -1,4 +1,4 @@
-import { Product } from '@commercetools/platform-sdk';
+import { ProductProjection } from '@commercetools/platform-sdk';
 import { Button, Card, Group, Image, Text } from '@mantine/core';
 import { Paths } from '@shared/types/routerTypes';
 import { useState } from 'react';
@@ -10,16 +10,12 @@ import FavoriteIcon from '../assets/favorite.svg';
 import { ProductPrice } from './product-price';
 
 interface Props {
-  product: Product;
+  product: ProductProjection;
 }
 
 export const ProductCard = ({ product }: Props) => {
   const [activeFavorite, setActiveFavorite] = useState(false);
   const navigate = useNavigate();
-  const productInfo = product.masterData.current;
-  const priceObj = productInfo.masterVariant.prices?.[0]?.value;
-  const discountedPriceObj = productInfo.masterVariant.prices?.[0]?.discounted?.value;
-  const imageObj = productInfo.masterVariant.images?.[0]?.url;
 
   const addToFavorite = (id: string) => {
     setActiveFavorite(!activeFavorite);
@@ -36,7 +32,7 @@ export const ProductCard = ({ product }: Props) => {
       <Card.Section>
         <Image
           src={
-            imageObj ??
+            product.masterVariant?.images[0]?.url ??
             // eslint-disable-next-line max-len
             'https://images.samsung.com/is/image/samsung/p6pim/kz_ru/qe75q70dauxce/gallery/kz-ru-qled-q70d-qe75q70dauxce-541256605?$684_547_PNG$'
           }
@@ -47,14 +43,17 @@ export const ProductCard = ({ product }: Props) => {
       </Card.Section>
 
       <Text fw={500} size="lg" mt="md">
-        {productInfo.name.en}
+        {product.name.en}
       </Text>
 
       <Text size="sm" c="dimmed" mb={10}>
-        {productInfo.description?.en}
+        {product.description?.en}
       </Text>
 
-      <ProductPrice priceObj={priceObj} discountedPriceObj={discountedPriceObj} />
+      <ProductPrice
+        priceObj={product.masterVariant.price?.value}
+        discountedPriceObj={product.masterVariant.price?.discounted?.value}
+      />
 
       <Group grow>
         <Button
