@@ -29,7 +29,13 @@ export const UpdateAddressForm = ({ data }: AddressListProps) => {
         </Button>
       </Group>
 
-      <Group grow wrap="wrap">
+      <Group
+        wrap="wrap"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         {data.map((address) => (
           <AddressCard key={address.id} address={address} />
         ))}
