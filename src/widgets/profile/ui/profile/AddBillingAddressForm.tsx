@@ -40,7 +40,7 @@ export const AddBillingAddressForm = observer(({ close }: AddressProps) => {
       country: data.billingCountry,
       defaultAddress: data.defaultAddress,
     };
-
+    console.log(data);
     const response = await addAddressAction({ data: data2, id, version, isBilling: true });
     if (response.error) {
       notifications.show({

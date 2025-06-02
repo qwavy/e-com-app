@@ -12,13 +12,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface AddressProps {
   address: ShippingAddress;
+  isDefault: boolean;
   close: () => void;
 }
 
-export const UpdateShippingAddressForm = observer(({ address, close }: AddressProps) => {
+export const UpdateShippingAddressForm = observer(({ address, close, isDefault }: AddressProps) => {
   const { user } = userStore;
-  const isDefaultBillingAddress = user?.defaultBillingAddressId ? true : false;
-  const [defaultAddress, setDefaultAddress] = useState(isDefaultBillingAddress);
+  // const isDefaultBillingAddress = user?.defaultBillingAddressId;
+  const [defaultAddress, setDefaultAddress] = useState(isDefault);
   const [city, setCity] = useState(address?.city);
   const [country, setCountry] = useState(address?.country);
   const [postalCode, setPostalCode] = useState(address?.postalCode);
@@ -38,7 +39,6 @@ export const UpdateShippingAddressForm = observer(({ address, close }: AddressPr
   const addressId = address?.id;
   const version = user?.version;
   const userId = user?.id;
-  console.log(version);
 
   const updateAddress: SubmitHandler<ShippingAddress> = async (data) => {
     const response = await updateAddressAction({ data, addressId, userId, version });

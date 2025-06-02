@@ -102,6 +102,7 @@ export const billingAddressSchema = (isBillingAddress: boolean) =>
     billingCountry: !isBillingAddress
       ? z.string().nonempty('Select your country from the list')
       : z.string().optional(),
+    defaultAddress: z.boolean().optional(),
   });
 
 const combinedSchema = passwordSchema.merge(shippingAddressSchema).merge(personalInformationSchema);

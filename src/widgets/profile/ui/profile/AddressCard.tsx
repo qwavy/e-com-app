@@ -60,17 +60,19 @@ export const AddressCard = observer(({ address }: AddressProps) => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '300px',
+          height: '310px',
           width: '220px',
           color: 'white',
           justifyContent: 'space-between',
           backgroundColor: bg,
         }}
       >
-        <Text size="xl" fw={700} c={color}>
+        <Text size="xl" fw={700} c={color} style={{ textAlign: 'center' }}>
+          {isShipping && isDefault && 'Default '}
           {isShipping && 'Shipping Address'}
         </Text>
         <Text size="xl" fw={700} c={color}>
+          {isBilling && isDefault && 'Default '}
           {isBilling && 'Billing address'}
         </Text>
         <Text size="sm" mt="xs" c={color}>
@@ -92,7 +94,7 @@ export const AddressCard = observer(({ address }: AddressProps) => {
           Delete Address
         </Button>
         <Modal size="auto" opened={opened} onClose={close} centered>
-          <UpdateShippingAddressForm address={address} close={close} />
+          <UpdateShippingAddressForm address={address} close={close} isDefault={isDefault} />
         </Modal>
       </Card>
     </>
