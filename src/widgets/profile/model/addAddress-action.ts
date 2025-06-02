@@ -3,9 +3,9 @@ import { addAddress } from '@shared/api/endpoints/addAddress/addAdress';
 import { SUCCESSFUL_RESPONSE_CODE } from '@shared/constants/constants';
 import { AddressProps } from '@shared/types/customerTypes';
 
-export const addAddressAction = async ({ data, id, version }: AddressProps) => {
+export const addAddressAction = async ({ data, id, version, isBilling }: AddressProps) => {
   try {
-    const response = await addAddress({ data, id, version });
+    const response = await addAddress({ data, id, version, isBilling });
     if (response.statusCode === SUCCESSFUL_RESPONSE_CODE) {
       const customer = response.body;
       userStore.setUser(customer);

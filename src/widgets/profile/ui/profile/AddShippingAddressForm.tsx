@@ -14,7 +14,7 @@ interface AddressProps {
   close: () => void;
 }
 
-export const AddAddressForm = observer(({ close }: AddressProps) => {
+export const AddShippingAddressForm = observer(({ close }: AddressProps) => {
   const { user } = userStore;
   const [defaultAddress, setDefaultAddress] = useState(false);
 

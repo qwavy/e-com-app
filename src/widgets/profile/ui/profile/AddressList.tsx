@@ -2,7 +2,8 @@ import { Button, Group, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ShippingAddress } from '@shared/types/customerTypes';
 
-import { AddAddressForm } from './AddAddressForm';
+import { AddBillingAddressForm } from './AddBillingAddressForm';
+import { AddShippingAddressForm } from './AddShippingAddressForm';
 import { AddressCard } from './AddressCard';
 
 interface AddressListProps {
@@ -11,6 +12,7 @@ interface AddressListProps {
 
 export const UpdateAddressForm = ({ data }: AddressListProps) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [opened2, { open: open2, close: close2 }] = useDisclosure(false);
 
   return (
     <>
@@ -18,7 +20,11 @@ export const UpdateAddressForm = ({ data }: AddressListProps) => {
         <Button variant="default" onClick={open} style={{ backgroundColor: '#F8F8FF', width: '220px', height: '50px' }}>
           Add new shipping address
         </Button>
-        <Button variant="default" onClick={open} style={{ backgroundColor: '#F8F8FF', width: '220px', height: '50px' }}>
+        <Button
+          variant="default"
+          onClick={open2}
+          style={{ backgroundColor: '#F8F8FF', width: '220px', height: '50px' }}
+        >
           Add new billing address
         </Button>
       </Group>
@@ -29,7 +35,10 @@ export const UpdateAddressForm = ({ data }: AddressListProps) => {
         ))}
       </Group>
       <Modal size="auto" opened={opened} onClose={close} centered>
-        <AddAddressForm close={close} />
+        <AddShippingAddressForm close={close} />
+      </Modal>
+      <Modal size="auto" opened={opened2} onClose={close2} centered>
+        <AddBillingAddressForm close={close2} />
       </Modal>
     </>
   );

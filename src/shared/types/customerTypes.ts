@@ -63,12 +63,16 @@ export interface AddressProps {
 }
 
 export interface Address {
-  streetName: string;
-  postalCode: string;
-  city: string;
-  country: string;
+  streetName?: string;
+  postalCode?: string;
+  city?: string;
+  country?: string;
   defaultAddress?: boolean;
   billingAddress?: boolean;
+  billingStreet?: string;
+  billingCity?: string;
+  billingPostalCode?: string;
+  billingCountry?: string;
 }
 
 export interface AddressForm {
