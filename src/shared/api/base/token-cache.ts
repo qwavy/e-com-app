@@ -1,14 +1,32 @@
 import { TokenStore } from '@commercetools/ts-client';
 
-const accessTokenKey = 'ct_access_token';
-const refreshTokenKey = 'ct_refresh_token';
-const expirationKey = 'ct_token_expiration';
+type TokenType = 'anonymous' | 'customer';
+
+let tokenType: TokenType = 'anonymous';
+
+const TOKEN_KEYS = {
+  customer: {
+    accessToken: 'ct_access_token_customer',
+    refreshToken: 'ct_refresh_token_customer',
+    expiration: 'ct_token_expiration_customer',
+  },
+  anonymous: {
+    accessToken: 'ct_access_token_anonymous',
+    refreshToken: 'ct_refresh_token_anonymous',
+    expiration: 'ct_token_expiration_anonymous',
+  },
+};
 
 export const tokenCache = {
+  setTokenType(type: 'anonymous' | 'customer') {
+    tokenType = type;
+  },
+
   get(): TokenStore {
-    const token = localStorage.getItem(accessTokenKey) || '';
-    const refreshToken = localStorage.getItem(refreshTokenKey) || '';
-    const expirationTime = Number(localStorage.getItem(expirationKey)) || 0;
+    const keys = TOKEN_KEYS[tokenType];
+    const token = localStorage.getItem(keys.accessToken) || '';
+    const refreshToken = localStorage.getItem(keys.refreshToken) || '';
+    const expirationTime = Number(localStorage.getItem(keys.expiration)) || 0;
 
     return {
       token,
@@ -18,16 +36,19 @@ export const tokenCache = {
   },
 
   set(token: TokenStore): void {
-    localStorage.setItem(accessTokenKey, token.token);
+    const keys = TOKEN_KEYS[tokenType];
+    localStorage.setItem(keys.accessToken, token.token);
     if (token.refreshToken) {
-      localStorage.setItem(refreshTokenKey, token.refreshToken);
+      localStorage.setItem(keys.refreshToken, token.refreshToken);
     }
-    localStorage.setItem(expirationKey, String(token.expirationTime));
+    localStorage.setItem(keys.expiration, String(token.expirationTime));
   },
 
   clear(): void {
-    localStorage.removeItem(accessTokenKey);
-    localStorage.removeItem(refreshTokenKey);
-    localStorage.removeItem(expirationKey);
+    Object.values(TOKEN_KEYS).forEach(({ accessToken, refreshToken, expiration }) => {
+      localStorage.removeItem(accessToken);
+      localStorage.removeItem(refreshToken);
+      localStorage.removeItem(expiration);
+    });
   },
 };

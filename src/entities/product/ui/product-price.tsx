@@ -4,11 +4,19 @@ import { Group, Text } from '@mantine/core';
 import { getPercent, getPrice } from '../uutils';
 
 interface Props {
-  priceObj: TypedMoney;
-  discountedPriceObj: TypedMoney;
+  priceObj?: TypedMoney;
+  discountedPriceObj?: TypedMoney;
 }
 
 export const ProductPrice = ({ priceObj, discountedPriceObj }: Props) => {
+  if (!priceObj) {
+    return (
+      <Text size="lg" mb={10}>
+        No price
+      </Text>
+    );
+  }
+
   if (discountedPriceObj) {
     return (
       <Group>
