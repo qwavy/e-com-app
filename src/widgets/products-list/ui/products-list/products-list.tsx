@@ -1,6 +1,12 @@
+import { ProductPagedQueryResponse } from '@commercetools/platform-sdk';
 import { ProductCard } from '@entities/product';
+
 import { Loader, Pagination, Skeleton } from '@mantine/core';
 import { api } from '@shared/api/api';
+
+import { Pagination, Skeleton } from '@mantine/core';
+import { apiStore } from '@shared/api/store/api-store';
+
 import { useQuery } from '@tanstack/react-query';
 import { getCategoriesByKeys } from '@widgets/products-list/model';
 import { useEffect, useState } from 'react';
@@ -16,7 +22,6 @@ export const ProductsList = () => {
   const [subCategoriesIds, setSubCategoriesIds] = useState<string[]>([]);
 
   const [page, setPage] = useState(1);
-  const productsPerPage = 10;
 
   useEffect(() => setPage(1), [searchPhrase]);
 
@@ -40,9 +45,24 @@ export const ProductsList = () => {
     }),
   };
 
-  const { data, isFetching, isLoading, isError, error } = useQuery({
-    queryKey: ['products', page, searchPhrase, JSON.stringify(subCategoriesIds)],
-    queryFn: () => api?.api.productProjections().search().get({ queryArgs }).execute(),
+  const productsPerPage = 6;
+  const {
+    isPending,
+    error,
+    data,
+  } = useQuery<ProductPagedQueryResponse>({
+    queryKey: ['products', page, apiStore.api?.accessToken, searchPhrase, JSON.stringify(subCategoriesIds)],
+    queryFn: async () => {
+      if (!apiStore.api) {
+        throw new Error('API not initialized');
+      }
+      const response = await apiStore.api.api
+        .products()
+        .get({ queryArgs })
+        .execute();
+      return response.body;
+    },
+    enabled: !!apiStore.api,
   });
 
   if (isLoading) {

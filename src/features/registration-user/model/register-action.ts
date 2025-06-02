@@ -2,8 +2,7 @@ import { userStore } from '@entities/user/model/user-store';
 import { buildCustomerClient } from '@shared/api/client/build-customer-client';
 import { createCustomer } from '@shared/api/client/create-api-client';
 import { SUCCESSFUL_RESPONSE_CODE } from '@shared/constants/constants';
-
-import { RegistrationFields } from '../ui/registration-form';
+import { RegistrationFields } from '@shared/types/customerTypes';
 
 interface Error {
   message: string;
