@@ -1,18 +1,10 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { RegistrationFields } from '@features/registration-user/ui/registration-form';
 import { CLIENT_ID, CLIENT_SECRET, OAUTH_URL, PROJECT_KEY, scope } from '@shared/constants/constants';
+import { RegistrationFields } from '@shared/types/customerTypes';
 
 import { createClientBuilder } from '../base/client-builder';
 import { tokenCache } from '../base/token-cache';
 import { addAddress } from '../endpoints/addAddress/addAdress';
-import { setAddressId } from '../endpoints/setAddressId/setAddressId';
-
-export enum Action {
-  setDefaultShippingAddress = 'setDefaultShippingAddress',
-  setDefaultBillingAddress = 'setDefaultBillingAddress',
-  addBillingAddressId = 'addBillingAddressId',
-  addShippingAddressId = 'addShippingAddressId',
-}
 
 export const createApiClient = () => {
   tokenCache.clear();
@@ -37,62 +29,33 @@ export const createApiClient = () => {
 
 export async function createCustomer(data: RegistrationFields) {
   const api = createApiClient();
-  let customer;
 
   try {
     const response = await api.customers().post({ body: data }).execute();
-    const version = response.body.customer.version;
+    let version = response.body.customer.version;
     const id = response.body.customer.id;
 
     const shippingAddress = {
-      streetName: data.street,
+      streetName: data.streetName,
       postalCode: data.postalCode,
       city: data.city,
       country: data.country,
+      billingAddress: data.billingAddress,
+      defaultAddress: data.defaultAddress,
     };
-
     const billingAddress = {
-      streetName: data.billingStreet ? data.billingStreet : data.street,
-      postalCode: data.billingPostalCode ? data.billingPostalCode : data.postalCode,
-      city: data.billingCity ? data.billingCity : data.city,
-      country: data.billingCountry ? data.billingCountry : data.country,
+      streetName: data.billingStreet ?? '',
+      postalCode: data.billingPostalCode ?? '',
+      city: data.billingCity ?? '',
+      country: data.billingCountry ?? '',
+      billingAddress: data.billingAddress,
+      defaultAddress: data.defaultAddress,
     };
 
-    let billingAddressId;
-    let newVersion = version;
-
-    const shippingAddressId = (await addAddress({ address: shippingAddress, version, id })).body.addresses[0].id;
+    let customer = await addAddress({ data: shippingAddress, version, id });
     if (!data.billingAddress) {
-      newVersion = version + 1;
-      billingAddressId = (await addAddress({ address: billingAddress, version: newVersion, id })).body.addresses[1].id;
-    } else {
-      billingAddressId = shippingAddressId;
-    }
-
-    if ((data.defaultAddress && data.billingAddress) || (data.defaultAddress && !data.billingAddress)) {
-      if (shippingAddressId && billingAddressId) {
-        customer = await setAddressId({
-          shippingAddressId,
-          billingAddressId,
-          version: newVersion,
-          id,
-          action1: Action.setDefaultShippingAddress,
-          action2: Action.setDefaultBillingAddress,
-        });
-      }
-    }
-
-    if ((!data.defaultAddress && data.billingAddress) || (!data.defaultAddress && !data.billingAddress)) {
-      if (shippingAddressId && billingAddressId) {
-        customer = await setAddressId({
-          shippingAddressId,
-          billingAddressId,
-          version: newVersion,
-          id,
-          action1: Action.addShippingAddressId,
-          action2: Action.addBillingAddressId,
-        });
-      }
+      version = customer?.body.version ?? 1;
+      customer = await addAddress({ data: billingAddress, version, id, isBilling: true });
     }
 
     return { success: true, data: customer, statusCode: customer?.statusCode };

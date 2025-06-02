@@ -1,3 +1,9 @@
+import { ProductDetails } from '@widgets/product-details/';
+
 export const ProductPage = () => {
-  return <h2>Product Page</h2>;
+  return (
+    <>
+      <ProductDetails />
+    </>
+  );
 };

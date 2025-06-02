@@ -1,0 +1,120 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 30px;
+}
+
+.box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.image {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  border-radius: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.basket {
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+
+  background-color: #18224d;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.basket:hover {
+  background-color: #202d66;
+}
+
+.favorite {
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.favorite:hover {
+  background-color: var(--color-gray);
+}
+
+.slider-wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.modal-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.embla {
+  overflow: hidden;
+  width: 100%;
+}
+
+.embla-container {
+  display: flex;
+}
+
+.embla-slide {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  aspect-ratio: 1 / 1;
+  min-width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+
+  background-color: var(--color-gray);
+}
+
+.thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+
+  margin-top: 10px;
+}
+
+.thumbnail {
+  cursor: pointer;
+
+  width: 100px;
+  height: 100px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+
+  object-fit: contain;
+  background: var(--color-gray);
+}
+
+.thumbnail.active {
+  border-color: #228be6;
+}

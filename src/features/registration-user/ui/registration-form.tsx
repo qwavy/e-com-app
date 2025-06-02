@@ -2,7 +2,8 @@ import { countries } from '@features/registration-user/contracts/countries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Anchor, Button, Checkbox, PasswordInput, Select, Text, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
-import { notifications } from '@mantine/notifications';
+import { RegistrationFields } from '@shared/types/customerTypes';
+import { message } from '@shared/utils/message';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -11,33 +12,17 @@ import { schema } from '../model/registartion-schema';
 import { registerAction } from '../model/register-action';
 import style from './registration-form.module.css';
 
-export interface RegistrationFields {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  date: string;
-  street: string;
-  city: string;
-  postalCode: string;
-  country: string;
-  billingStreet?: string;
-  billingCity?: string;
-  billingPostalCode?: string;
-  billingCountry?: string;
-  billingAddress: boolean;
-  defaultAddress: boolean;
-}
-
 export const RegistrationForm = () => {
   const [defaultAddress, setDefaultAddress] = useState(false);
   const [billingAddress, setBillingAddress] = useState(false);
   const navigate = useNavigate();
 
   const {
+    trigger,
     register,
     handleSubmit,
     setValue,
+    clearErrors,
     formState: { errors },
   } = useForm<RegistrationFields>({
     resolver: zodResolver(schema(billingAddress)),
@@ -47,24 +32,12 @@ export const RegistrationForm = () => {
   const signin: SubmitHandler<RegistrationFields> = async (data) => {
     const response = await registerAction(data);
     if (response.error) {
-      notifications.show({
-        position: 'top-center',
-        title: 'Error',
-        autoClose: 10000,
-        message: response.error,
-        color: 'red',
-      });
+      message({ message: response.error, title: 'Error' });
     } else {
-      notifications.show({
-        position: 'top-center',
-        autoClose: 3000,
-        message: 'Registration successful!',
-        color: 'green',
-      });
+      message({ message: 'Registration successful!' });
       navigate('/');
     }
   };
-
   return (
     <>
       <form onSubmit={handleSubmit(signin)} className={style.form}>
@@ -115,9 +88,13 @@ export const RegistrationForm = () => {
             withAsterisk
             label="Date of birth"
             placeholder="Select date of birth"
-            {...register('date')}
-            onChange={(value) => setValue('date', value || '')}
-            error={errors.date && errors.date.message}
+            {...register('dateOfBirth')}
+            onChange={(value) => {
+              setValue('dateOfBirth', value || '');
+              clearErrors('dateOfBirth');
+              trigger('dateOfBirth');
+            }}
+            error={errors.dateOfBirth && errors.dateOfBirth.message}
           />
         </div>
 
@@ -144,9 +121,9 @@ export const RegistrationForm = () => {
             w={{ base: 280, sm: 360, lg: 540 }}
             withAsterisk
             label="Street"
-            {...register('street')}
+            {...register('streetName')}
             placeholder="Enter your street"
-            error={errors.street && errors.street.message}
+            error={errors.streetName && errors.streetName.message}
           />
         </div>
 
@@ -179,7 +156,10 @@ export const RegistrationForm = () => {
           placeholder="Enter your country"
           data={countries}
           {...register('country')}
-          onChange={(value) => setValue('country', value as string)}
+          onChange={(value) => {
+            setValue('country', value as string);
+            clearErrors('country');
+          }}
           error={errors.country && errors.country.message}
         />
 
@@ -228,7 +208,10 @@ export const RegistrationForm = () => {
                 placeholder="Enter your country"
                 data={countries}
                 {...register('billingCountry')}
-                onChange={(value) => setValue('billingCountry', value as string)}
+                onChange={(value) => {
+                  setValue('billingCountry', value as string);
+                  clearErrors('billingCountry');
+                }}
                 error={errors.billingCountry && errors.billingCountry.message}
               />
             </div>

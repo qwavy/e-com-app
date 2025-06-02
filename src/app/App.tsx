@@ -4,6 +4,7 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { Route, Routes } from 'react-router-dom';
 
@@ -12,23 +13,26 @@ import { theme } from './providers/mantine';
 import { authRoutes, mainRoutes } from './providers/router/routes';
 
 const App = observer(() => {
+  const queryClient = new QueryClient();
   if (!userStore.isInitialized) {
     return <div>Loading user...</div>;
   }
   return (
-    <MantineProvider theme={theme}>
-      <Notifications />
-      <Routes>
-        <Route element={<DefaultLayout />}>
-          {mainRoutes.map(({ path, element }) => (
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider theme={theme}>
+        <Notifications />
+        <Routes>
+          <Route element={<DefaultLayout />}>
+            {mainRoutes.map(({ path, element }) => (
+              <Route key={path} path={path} element={element} />
+            ))}
+          </Route>
+          {authRoutes.map(({ path, element }) => (
             <Route key={path} path={path} element={element} />
           ))}
-        </Route>
-        {authRoutes.map(({ path, element }) => (
-          <Route key={path} path={path} element={element} />
-        ))}
-      </Routes>
-    </MantineProvider>
+        </Routes>
+      </MantineProvider>
+    </QueryClientProvider>
   );
 });
 
