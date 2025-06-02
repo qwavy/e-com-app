@@ -1,4 +1,6 @@
-import { Action, createApiClient } from '@shared/api/client/create-api-client';
+import { createApiClient } from '@shared/api/client/create-api-client';
+
+import { Action } from '../addAddress/addAdress';
 
 interface Props {
   addressId: string;

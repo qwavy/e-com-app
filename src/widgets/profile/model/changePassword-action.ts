@@ -2,10 +2,11 @@ import { userStore } from '@entities/user/model/user-store';
 import { changePassword } from '@shared/api/endpoints/changePassword/changePassword';
 import { ChangePasswordProps } from '@shared/api/endpoints/changePassword/changePassword';
 import { SUCCESSFUL_RESPONSE_CODE } from '@shared/constants/constants';
+import { CustomClientResponse } from '@shared/types/customerTypes';
 
 export const changePasswordAction = async ({ newPassword, currentPassword, id, version }: ChangePasswordProps) => {
   try {
-    const response = await changePassword({ newPassword, currentPassword, id, version });
+    const response = (await changePassword({ newPassword, currentPassword, id, version })) as CustomClientResponse;
 
     if (response.statusCode === SUCCESSFUL_RESPONSE_CODE) {
       const customer = response.body;

@@ -23,13 +23,20 @@ interface AddressProps {
 }
 
 export const AddressCard = observer(({ address }: AddressProps) => {
+  let isShipping;
+  let isBilling;
   const [opened, { open, close }] = useDisclosure(false);
   const { user } = userStore;
   const addressId = address?.id ?? '';
   const version = user?.version ?? 1;
   const id = user?.id ?? '';
-  const isShipping = findMatch(user?.shippingAddressIds, addressId);
-  const isBilling = findMatch(user?.billingAddressIds, addressId);
+  if (user?.shippingAddressIds) {
+    isShipping = findMatch(user?.shippingAddressIds, addressId);
+  }
+  if (user?.billingAddressIds) {
+    isBilling = findMatch(user?.billingAddressIds, addressId);
+  }
+
   const isDefault = user?.defaultShippingAddressId === addressId || user?.defaultBillingAddressId ? true : false;
   const bg = isDefault ? '#A9A9A9' : '#F8F8FF';
   const color = isDefault ? '#F8F8FF' : '#A9A9A9';

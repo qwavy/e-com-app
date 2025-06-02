@@ -1,3 +1,5 @@
+import { ClientResponse } from '@commercetools/platform-sdk';
+
 export type IPassword = {
   password: string;
 };
@@ -86,4 +88,11 @@ export interface AddressForm {
   billingCity?: string;
   billingPostalCode?: string;
   billingCountry?: string;
+}
+
+export interface CustomClientResponse extends ClientResponse {
+  error: {
+    message: string;
+    code?: number;
+  };
 }

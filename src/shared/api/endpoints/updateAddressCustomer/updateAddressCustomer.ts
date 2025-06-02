@@ -10,7 +10,10 @@ function findCountryCode(countryName: string) {
 }
 
 export const updateAddressCustomer = async ({ data, userId = '', addressId, version = 1 }: AddressProps) => {
-  const countryCode = data.country.length > 2 ? findCountryCode(data.country) : data.country;
+  let countryCode;
+  if (data.country) {
+    countryCode = data.country.length > 2 ? findCountryCode(data.country) : data.country;
+  }
   const country = countryCode ?? '';
   const api = createApiClient();
   let res = await api

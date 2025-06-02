@@ -11,10 +11,10 @@ export enum Action {
 }
 
 export async function addAddress({ data, version = 1, id = '', isBilling }: AddressProps) {
-  console.log(data);
   const api = createApiClient();
 
   const { streetName, postalCode, city, country } = data;
+  const countryData = country ? country : 'AF';
 
   let customer;
   const res = await api
@@ -30,7 +30,7 @@ export async function addAddress({ data, version = 1, id = '', isBilling }: Addr
               streetName,
               postalCode,
               city,
-              country,
+              country: countryData,
             },
           },
         ],
