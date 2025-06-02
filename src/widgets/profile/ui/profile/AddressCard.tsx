@@ -37,7 +37,8 @@ export const AddressCard = observer(({ address }: AddressProps) => {
     isBilling = findMatch(user?.billingAddressIds, addressId);
   }
 
-  const isDefault = user?.defaultShippingAddressId === addressId || user?.defaultBillingAddressId ? true : false;
+  const isDefault =
+    user?.defaultShippingAddressId === addressId || user?.defaultBillingAddressId === addressId ? true : false;
   const bg = isDefault ? '#A9A9A9' : '#F8F8FF';
   const color = isDefault ? '#F8F8FF' : '#A9A9A9';
 
