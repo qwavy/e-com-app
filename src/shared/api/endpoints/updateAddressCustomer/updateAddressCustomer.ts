@@ -9,7 +9,7 @@ function findCountryCode(countryName: string) {
   return countries.find((c) => c.label === countryName)?.value;
 }
 
-export const updateAddressCustomer = async ({ data, userId = '', addressId, version = 1 }: AddressProps) => {
+export const updateAddressCustomer = async ({ data, userId = '', addressId, version = 1, isBilling }: AddressProps) => {
   let countryCode;
   if (data.country) {
     countryCode = data.country.length > 2 ? findCountryCode(data.country) : data.country;
@@ -39,12 +39,21 @@ export const updateAddressCustomer = async ({ data, userId = '', addressId, vers
     .execute();
 
   if (data.defaultAddress) {
-    res = await setAddressParams({
-      addressId: addressId ?? '',
-      version,
-      id: userId,
-      action: Action.setDefaultShippingAddress,
-    });
+    if (isBilling) {
+      res = await setAddressParams({
+        addressId: addressId ?? '',
+        version,
+        id: userId,
+        action: Action.setDefaultBillingAddress,
+      });
+    } else {
+      res = await setAddressParams({
+        addressId: addressId ?? '',
+        version,
+        id: userId,
+        action: Action.setDefaultShippingAddress,
+      });
+    }
   }
 
   return res;

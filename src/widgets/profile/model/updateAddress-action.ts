@@ -3,9 +3,15 @@ import { updateAddressCustomer } from '@shared/api/endpoints/updateAddressCustom
 import { SUCCESSFUL_RESPONSE_CODE } from '@shared/constants/constants';
 import { AddressProps, CustomClientResponse } from '@shared/types/customerTypes';
 
-export const updateAddressAction = async ({ data, userId, addressId, version }: AddressProps) => {
+export const updateAddressAction = async ({ data, userId, addressId, version, isBilling }: AddressProps) => {
   try {
-    const response = (await updateAddressCustomer({ data, userId, addressId, version })) as CustomClientResponse;
+    const response = (await updateAddressCustomer({
+      data,
+      userId,
+      addressId,
+      version,
+      isBilling,
+    })) as CustomClientResponse;
 
     if (response.statusCode === SUCCESSFUL_RESPONSE_CODE) {
       const customer = response.body;

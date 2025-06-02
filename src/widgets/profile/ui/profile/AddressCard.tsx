@@ -26,6 +26,7 @@ export const AddressCard = observer(({ address }: AddressProps) => {
   let isShipping;
   let isBilling;
   const [opened, { open, close }] = useDisclosure(false);
+
   const { user } = userStore;
   const addressId = address?.id ?? '';
   const version = user?.version ?? 1;
@@ -37,8 +38,9 @@ export const AddressCard = observer(({ address }: AddressProps) => {
     isBilling = findMatch(user?.billingAddressIds, addressId);
   }
 
-  const isDefault =
-    user?.defaultShippingAddressId === addressId || user?.defaultBillingAddressId === addressId ? true : false;
+  const isDefaultShipping = user?.defaultShippingAddressId === addressId ? true : false;
+  const isDefaultBilling = user?.defaultBillingAddressId === addressId ? true : false;
+  const isDefault = isDefaultBilling || isDefaultShipping;
   const bg = isDefault ? '#A9A9A9' : '#F8F8FF';
   const color = isDefault ? '#F8F8FF' : '#A9A9A9';
 
@@ -68,11 +70,11 @@ export const AddressCard = observer(({ address }: AddressProps) => {
         }}
       >
         <Text size="xl" fw={700} c={color} style={{ textAlign: 'center' }}>
-          {isShipping && isDefault && 'Default '}
+          {isShipping && isDefaultShipping && 'Default '}
           {isShipping && 'Shipping Address'}
         </Text>
         <Text size="xl" fw={700} c={color}>
-          {isBilling && isDefault && 'Default '}
+          {isBilling && isDefaultBilling && 'Default '}
           {isBilling && 'Billing address'}
         </Text>
         <Text size="sm" mt="xs" c={color}>
@@ -94,7 +96,7 @@ export const AddressCard = observer(({ address }: AddressProps) => {
           Delete Address
         </Button>
         <Modal size="auto" opened={opened} onClose={close} centered>
-          <UpdateShippingAddressForm address={address} close={close} isDefault={isDefault} />
+          <UpdateShippingAddressForm address={address} close={close} isDefault={isDefault} isBilling={isBilling} />
         </Modal>
       </Card>
     </>

@@ -10,7 +10,7 @@ class UserStore {
   }
 
   setUser(customer: Customer) {
-    console.log(customer);
+    //console.log(customer);
     this.user = customer;
   }
 
