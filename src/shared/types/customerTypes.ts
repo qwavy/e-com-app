@@ -23,6 +23,7 @@ export type ShippingAddress = {
   country: string;
   billingAddress?: boolean;
   defaultAddress?: boolean;
+  addressType?: string;
   id?: string;
 };
 
@@ -31,6 +32,7 @@ export type BillingAddress = {
   billingCity?: string;
   billingPostalCode?: string;
   billingCountry?: string;
+  defaultAddress?: boolean;
   id?: string;
 };
 
@@ -57,6 +59,7 @@ export interface AddressProps {
   id?: string;
   userId?: string;
   addressId?: string;
+  isBilling?: boolean;
 }
 
 export interface Address {
@@ -65,4 +68,18 @@ export interface Address {
   city: string;
   country: string;
   defaultAddress?: boolean;
+  billingAddress?: boolean;
+}
+
+export interface AddressForm {
+  streetName: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  billingAddress?: boolean;
+  defaultAddress?: boolean;
+  billingStreet?: string;
+  billingCity?: string;
+  billingPostalCode?: string;
+  billingCountry?: string;
 }

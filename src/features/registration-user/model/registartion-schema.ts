@@ -74,6 +74,7 @@ export const shippingAddressSchema = z.object({
   country: z.string().nonempty('Select your country from the list'),
   defaultAddress: z.boolean().optional(),
   billingAddress: z.boolean().optional(),
+  addressType: z.string().optional(),
 });
 
 export const billingAddressSchema = (isBillingAddress: boolean) =>
@@ -107,6 +108,10 @@ const combinedSchema = passwordSchema.merge(shippingAddressSchema).merge(persona
 
 export const schema = (isBillingAddress: boolean) => {
   return combinedSchema.merge(billingAddressSchema(isBillingAddress));
+};
+
+export const addressSchema = (isBillingAddress: boolean) => {
+  return shippingAddressSchema.merge(billingAddressSchema(isBillingAddress));
 };
 
 export const changePasswordSchema = passwordSchema.merge(newPasswordSchema);

@@ -6,7 +6,6 @@ import { AddressProps } from '@shared/types/customerTypes';
 export const addAddressAction = async ({ data, id, version }: AddressProps) => {
   try {
     const response = await addAddress({ data, id, version });
-
     if (response.statusCode === SUCCESSFUL_RESPONSE_CODE) {
       const customer = response.body;
       userStore.setUser(customer);

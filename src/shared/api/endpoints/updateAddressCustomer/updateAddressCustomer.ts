@@ -2,14 +2,18 @@ import { countries } from '@features/registration-user/contracts/countries';
 import { createApiClient } from '@shared/api/client/create-api-client';
 import { AddressProps } from '@shared/types/customerTypes';
 
+import { Action } from '../addAddress/addAdress';
+import { setAddressParams } from '../setAddressParams/setAddressParams';
+
 function findCountryCode(countryName: string) {
   return countries.find((c) => c.label === countryName)?.value;
 }
 
 export const updateAddressCustomer = async ({ data, userId = '', addressId, version = 1 }: AddressProps) => {
-  const country = findCountryCode(data.country) ?? '';
+  const countryCode = data.country.length > 2 ? findCountryCode(data.country) : data.country;
+  const country = countryCode ?? '';
   const api = createApiClient();
-  const res = await api
+  let res = await api
     .customers()
     .withId({ ID: userId })
     .post({
@@ -30,5 +34,15 @@ export const updateAddressCustomer = async ({ data, userId = '', addressId, vers
       },
     })
     .execute();
+
+  if (data.defaultAddress) {
+    res = await setAddressParams({
+      addressId: addressId ?? '',
+      version,
+      id: userId,
+      action: Action.setDefaultShippingAddress,
+    });
+  }
+
   return res;
 };

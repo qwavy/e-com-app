@@ -1,4 +1,5 @@
 import { userStore } from '@entities/user/model/user-store';
+import { countries } from '@features/registration-user/contracts/countries';
 import { Card, Modal, Text } from '@mantine/core';
 import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -7,7 +8,15 @@ import { message } from '@shared/utils/message';
 import { deleteAddressAction } from '@widgets/profile/model/deleteAddress-action';
 import { observer } from 'mobx-react-lite';
 
-import { UpdateShippingAddressForm } from './UpdateShippingAddressForm';
+import { UpdateShippingAddressForm } from './UpdateAddressForm';
+
+function findCountryName(countryCode: string) {
+  return countries.find((c) => c.value === countryCode)?.label;
+}
+
+function findMatch(array: string[], search: string) {
+  return array.find((str: string) => str === search);
+}
 
 interface AddressProps {
   address: ShippingAddress;
@@ -19,7 +28,13 @@ export const AddressCard = observer(({ address }: AddressProps) => {
   const addressId = address?.id ?? '';
   const version = user?.version ?? 1;
   const id = user?.id ?? '';
-  console.log(address.defaultAddress, '****');
+  const isShipping = findMatch(user?.shippingAddressIds, addressId);
+  const isBilling = findMatch(user?.billingAddressIds, addressId);
+  const isDefault = user?.defaultShippingAddressId === addressId || user?.defaultBillingAddressId ? true : false;
+  console.log(isDefault);
+
+  const bg = isDefault ? '#A9A9A9' : '#F8F8FF';
+  const color = isDefault ? '#F8F8FF' : '#A9A9A9';
 
   const deleteAddress = async () => {
     const response = await deleteAddressAction({ addressId, id, version });
@@ -36,18 +51,24 @@ export const AddressCard = observer(({ address }: AddressProps) => {
         padding="lg"
         radius="md"
         withBorder
-        style={{ backgroundColor: '#F8F8FF', height: '250px', width: '200px' }}
+        style={{ backgroundColor: bg, height: '300px', width: '220px', color: 'white' }}
       >
-        <Text size="sm" mt="xs" c="dimmed">
+        <Text size="xl" fw={700} c={color}>
+          {isShipping && 'Shipping Address'}
+        </Text>
+        <Text size="xl" fw={700} c={color}>
+          {isBilling && 'Billing address'}
+        </Text>
+        <Text size="sm" mt="xs" c={color}>
           Postal code: {address.postalCode}
         </Text>
-        <Text size="sm" mt="xs" c="dimmed">
-          Country: {address.country}
+        <Text size="sm" mt="xs" c={color}>
+          Country: {findCountryName(address.country)}
         </Text>
-        <Text size="sm" mt="xs" c="dimmed">
+        <Text size="sm" mt="xs" c={color}>
           City: {address.city}
         </Text>
-        <Text size="sm" mt="xs" c="dimmed">
+        <Text size="sm" mt="xs" c={color}>
           Street: {address.streetName}
         </Text>
         <Button variant="default" onClick={open}>
