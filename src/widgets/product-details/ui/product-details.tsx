@@ -16,7 +16,6 @@ export const ProductDetails = () => {
   }
 
   const product = data?.body;
-  console.log(product);
 
   return (
     <Skeleton visible={isPending}>

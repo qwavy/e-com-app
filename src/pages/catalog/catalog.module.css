@@ -1,4 +1,22 @@
-/* TODO: styles will be added later */
 .container-page {
-  display: flex;
+  display: grid;
+  grid-template-areas:
+    'sidebar search search'
+    'sidebar catalog catalog'
+    'sidebar catalog catalog';
+  gap: 10px 0;
+  width: 100%;
+}
+
+.container-page > :nth-child(1) {
+  grid-area: sidebar;
+}
+
+.container-page > :nth-child(2) {
+  grid-area: search;
+  height: 100px;
+}
+
+.container-page > :nth-child(3) {
+  grid-area: catalog;
 }
