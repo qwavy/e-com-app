@@ -5,6 +5,6 @@ export const getPrice = (priceObj: TypedMoney) => {
 };
 
 export const getPercent = (priceObj: TypedMoney, discountedPriceObj: TypedMoney) => {
-  const percent = (getPrice(discountedPriceObj) / getPrice(priceObj)) * 100;
+  const percent = (Number(getPrice(discountedPriceObj)) / Number(getPrice(priceObj))) * 100;
   return 100 - percent;
 };
