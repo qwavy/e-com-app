@@ -60,6 +60,16 @@
   margin: 0 auto;
 }
 
+.modal-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .embla {
   overflow: hidden;
   width: 100%;
