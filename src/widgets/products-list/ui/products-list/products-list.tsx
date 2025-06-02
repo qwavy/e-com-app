@@ -21,14 +21,16 @@ export const ProductsList = () => {
   useEffect(() => setPage(1), [searchPhrase]);
 
   useEffect(() => {
-    (async () => {
+    const fetchIds = async () => {
       const ids = await getCategoriesByKeys(searchParams.getAll('subcategory'));
       setSubCategoriesIds(ids);
       setPage(1);
-    })();
+    };
+
+    fetchIds();
   }, [searchParams]);
 
-  const queryArgs: Record<string, string | number> = {
+  const queryArgs = {
     limit: productsPerPage,
     offset: (page - 1) * productsPerPage,
     priceCurrency: 'USD',
