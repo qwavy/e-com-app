@@ -56,7 +56,15 @@ export const AddressCard = observer(({ address }: AddressProps) => {
         padding="lg"
         radius="md"
         withBorder
-        style={{ backgroundColor: bg, height: '300px', width: '220px', color: 'white' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '300px',
+          width: '220px',
+          color: 'white',
+          justifyContent: 'space-between',
+          backgroundColor: bg,
+        }}
       >
         <Text size="xl" fw={700} c={color}>
           {isShipping && 'Shipping Address'}
