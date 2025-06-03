@@ -1,8 +1,18 @@
-import { api } from '@shared/api/api';
+import { apiStore } from '@shared/api/store/api-store';
+
+import { getAllCategoryIds } from './getAllCategoryIds';
 
 export const getCategoriesByKeys = async (categoryKeys: string[]) => {
-  const categoriesKeysPromises = categoryKeys.map((key) => api?.api.categories().withKey({ key }).get().execute());
+  if (!apiStore.api || categoryKeys.length === 0) {
+    return [];
+  }
 
-  const categoriesIds = await Promise.all(categoriesKeysPromises);
-  return categoriesIds.map((categoryId) => categoryId?.body.id);
+  const allCategoriesResponse = await apiStore.api.api.categories().get().execute();
+  const allCategories = allCategoriesResponse.body.results;
+
+  const selectedCategories = allCategories.filter((cat) => categoryKeys.includes(cat.key ?? ''));
+
+  const allIds = selectedCategories.flatMap((category) => getAllCategoryIds(category, allCategories));
+
+  return [...new Set(allIds)];
 };
