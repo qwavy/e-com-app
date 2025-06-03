@@ -125,6 +125,7 @@ export const UpdateShippingAddressForm = observer(({ address, close, isDefault, 
           {...register('defaultAddress')}
           onChange={(e) => setDefaultAddress(e.currentTarget.checked)}
           checked={defaultAddress}
+          disabled={isDefault}
           style={{ marginBottom: '2rem' }}
         />
         <Button type="submit">Save</Button>
