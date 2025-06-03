@@ -20,3 +20,13 @@
 .container-page > :nth-child(3) {
   grid-area: catalog;
 }
+
+@media (width <= 600px) {
+  .container-page {
+    grid-template:
+      'sidebar'
+      'search'
+      'catalog'
+      / 1fr;
+  }
+}
