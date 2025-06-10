@@ -118,3 +118,9 @@
 .thumbnail.active {
   border-color: #228be6;
 }
+
+@media (width <= 600px) {
+  .box {
+    grid-template-columns: 1fr;
+  }
+}
