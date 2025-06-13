@@ -1,5 +1,6 @@
 import { updateLineItemQuantity } from '@entities/basket/get-basket-items';
 import { ProductPrice } from '@entities/product/ui/product-price';
+import { RemoveFromBasketButton } from '@features/basket-button/ui/remove-basket-button';
 import { Card, Image, Text } from '@mantine/core';
 import { NumberInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
@@ -58,6 +59,7 @@ export const BasketItem = observer(({ lineItemId }: Props) => {
         label="Количество"
         mt="md"
       />
+      <RemoveFromBasketButton lineItemId={item.id} />
     </Card>
   );
 });
