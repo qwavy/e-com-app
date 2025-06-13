@@ -79,3 +79,35 @@ export async function getBasketItems(): Promise<LineItem[]> {
 
   return response.body.lineItems;
 }
+
+export const updateLineItemQuantity = async (lineItemId: string, quantity: number) => {
+  const cartId = basketStore.basket?.id;
+  const version = basketStore.basket?.version;
+  const api = apiStore.apiClient;
+
+  if (!cartId || version === undefined) {
+    throw new Error('Корзина не инициализирована');
+  }
+  if (!api) {
+    throw new Error('API client is not initialized');
+  }
+  const response = await api
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version,
+        actions: [
+          {
+            action: 'changeLineItemQuantity',
+            lineItemId,
+            quantity,
+          },
+        ],
+      },
+    })
+    .execute();
+
+  basketStore.setBasket(response.body);
+};

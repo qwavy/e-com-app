@@ -11,6 +11,7 @@ class BasketStore {
 
   setBasket(basket: Basket) {
     this.basket = basket;
+    this.items = basket.lineItems;
   }
 
   clearBasket() {
