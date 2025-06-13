@@ -111,3 +111,29 @@ export const updateLineItemQuantity = async (lineItemId: string, quantity: numbe
 
   basketStore.setBasket(response.body);
 };
+
+export async function removeLineItem(lineItemId: string): Promise<void> {
+  const api = apiStore.apiClient;
+  if (!api) {
+    throw new Error('API client is not initialized');
+  }
+  const cart = await api.me().activeCart().get().execute();
+
+  const response = await api
+    .me()
+    .carts()
+    .withId({ ID: cart.body.id })
+    .post({
+      body: {
+        version: cart.body.version,
+        actions: [
+          {
+            action: 'removeLineItem',
+            lineItemId,
+          },
+        ],
+      },
+    })
+    .execute();
+  basketStore.setBasket(response.body);
+}
