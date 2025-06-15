@@ -1,5 +1,13 @@
 import { LineItem } from '@commercetools/platform-sdk';
 import { Cart as Basket } from '@commercetools/platform-sdk';
+import {
+  AnonymousCartSignInMode,
+  CartResourceIdentifier,
+  CustomerSignInResult,
+  MyCustomerSignin,
+} from '@commercetools/platform-sdk';
+import { getCartApi } from '@entities/basket/get-cart-api';
+import { tokenCache } from '@shared/api/base/token-cache';
 import { apiStore } from '@shared/api/store/api-store';
 
 import { basketStore } from './basket-store';
@@ -9,18 +17,23 @@ export async function createCustomerBasket(): Promise<Basket> {
   if (!api) {
     throw new Error('API client is not initialized');
   }
+  try {
+    const existingCart = await api.me().activeCart().get().execute();
+    return existingCart.body;
+  } catch (err) {
+    console.log(err);
+    const response = await api
+      .me()
+      .carts()
+      .post({
+        body: {
+          currency: 'USD',
+        },
+      })
+      .execute();
 
-  const response = await api
-    .me()
-    .carts()
-    .post({
-      body: {
-        currency: 'USD',
-      },
-    })
-    .execute();
-
-  return response.body;
+    return response.body;
+  }
 }
 
 export async function createAnonymousBasket(): Promise<Basket> {
@@ -73,8 +86,8 @@ export async function getBasketItems(): Promise<LineItem[]> {
     throw new Error('Basket is not initialized');
   }
 
-  const response = await api.me().carts().withId({ ID: basket.id }).get().execute();
-
+  const cartApi = getCartApi(api);
+  const response = await cartApi.withId({ ID: basket.id }).get().execute();
   basketStore.setBasket(response.body);
 
   return response.body.lineItems;
@@ -91,9 +104,8 @@ export const updateLineItemQuantity = async (lineItemId: string, quantity: numbe
   if (!api) {
     throw new Error('API client is not initialized');
   }
-  const response = await api
-    .me()
-    .carts()
+  const cartApi = getCartApi(api);
+  const response = await cartApi
     .withId({ ID: cartId })
     .post({
       body: {
@@ -119,9 +131,8 @@ export async function removeLineItem(lineItemId: string): Promise<void> {
   }
   const cart = await api.me().activeCart().get().execute();
 
-  const response = await api
-    .me()
-    .carts()
+  const cartApi = getCartApi(api);
+  const response = await cartApi
     .withId({ ID: cart.body.id })
     .post({
       body: {
@@ -136,4 +147,46 @@ export async function removeLineItem(lineItemId: string): Promise<void> {
     })
     .execute();
   basketStore.setBasket(response.body);
+}
+
+interface MyCustomerSignInWithCart extends MyCustomerSignin {
+  anonymousCart?: CartResourceIdentifier;
+  anonymousCartSignInMode?: AnonymousCartSignInMode;
+}
+
+export async function associateAnonymousCartWithUser({
+  email,
+  password,
+  anonymousCartId,
+}: {
+  email: string;
+  password: string;
+  anonymousCartId?: string;
+}): Promise<CustomerSignInResult> {
+  const api = apiStore.apiClient;
+
+  if (!api) {
+    throw new Error('API client is not initialized');
+  }
+
+  const body: MyCustomerSignInWithCart = {
+    email,
+    password,
+  };
+
+  if (anonymousCartId) {
+    body.anonymousCart = {
+      id: anonymousCartId,
+      typeId: 'cart',
+    } as CartResourceIdentifier;
+
+    body.anonymousCartSignInMode = 'MergeWithExistingCustomerCart' as AnonymousCartSignInMode;
+  }
+  const response = await api.me().login().post({ body }).execute();
+
+  localStorage.removeItem('anonymous_id');
+  apiStore.clearAnonymousId();
+  tokenCache.clear();
+
+  return response.body;
 }

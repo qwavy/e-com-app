@@ -34,7 +34,7 @@ export async function buildAnonymousClient(retries = 1) {
   const apiInstance = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: PROJECT_KEY });
 
   try {
-    await apiInstance.get().execute();
+    // await apiInstance.get().execute();
     apiStore.setAnonymousId(anonymousId);
     apiStore.setApi({
       api: apiInstance,
@@ -44,7 +44,7 @@ export async function buildAnonymousClient(retries = 1) {
 
     const basket = await createAnonymousBasket();
     console.log('Anonymous basket', basket);
-    basketStore.setItems(basket.lineItems);
+    basketStore.setBasket(basket);
     return {
       api: apiInstance,
       accessToken: tokenCache.get()?.token,

@@ -1,4 +1,5 @@
 import { basketStore } from '@entities/basket/basket-store';
+import { getCartApi } from '@entities/basket/get-cart-api';
 import { Button } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { apiStore } from '@shared/api/store/api-store';
@@ -25,9 +26,8 @@ export const AddToBasketButton = ({ productId }: Props) => {
         return;
       }
 
-      const response = await api
-        .me()
-        .carts()
+      const cartApi = getCartApi(api);
+      const response = await cartApi
         .withId({ ID: basket.id })
         .post({
           body: {
