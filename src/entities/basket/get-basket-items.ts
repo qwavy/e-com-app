@@ -4,6 +4,8 @@ import {
   AnonymousCartSignInMode,
   CartResourceIdentifier,
   CustomerSignInResult,
+  MyCartRemoveLineItemAction,
+  MyCartUpdateAction,
   MyCustomerSignin,
 } from '@commercetools/platform-sdk';
 import { getCartApi } from '@entities/basket/get-cart-api';
@@ -190,3 +192,35 @@ export async function associateAnonymousCartWithUser({
 
   return response.body;
 }
+
+export const clearBasket = async () => {
+  const api = apiStore.apiClient;
+  const basket = basketStore.basket;
+
+  if (!api || !basket) {
+    throw new Error('API client или корзина не инициализированы');
+  }
+
+  const cartApi = getCartApi(api);
+
+  const actions: MyCartUpdateAction[] = basket.lineItems.map(
+    (item) =>
+      ({
+        action: 'removeLineItem',
+        lineItemId: item.id,
+      }) as MyCartRemoveLineItemAction,
+  );
+
+  const response = await cartApi
+    .withId({ ID: basket.id })
+    .post({
+      body: {
+        version: basket.version,
+        actions,
+      },
+    })
+    .execute();
+
+  basketStore.setBasket(response.body);
+  basketStore.setItems([]);
+};

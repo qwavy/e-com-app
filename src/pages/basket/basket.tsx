@@ -18,13 +18,13 @@ export const BasketPage = observer(() => {
       {isEmpty ? (
         <Stack align="center" mt="xl">
           <Text size="xl" fw={600}>
-            🛒 Ваша корзина пуста
+            🛒 Your basket is empty
           </Text>
           <Text size="md" c="dimmed" p="md">
-            Добавьте что-нибудь из каталога, чтобы начать покупки.
+            Add something from the catalog to start shopping.
           </Text>
           <Button component={Link} to="/catalog" variant="light">
-            Перейти в каталог
+            Go to Catalog
           </Button>
         </Stack>
       ) : (
