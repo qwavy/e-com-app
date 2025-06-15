@@ -1,21 +1,16 @@
-import { Button } from '@mantine/core';
-
-import BasketIcon from '../assets/basket.svg';
-import styles from './basket-button.module.css';
+import { basketStore } from '@entities/basket/basket-store';
+import { AddToBasketButton } from '@features/basket-button/ui/add-basket-button';
+import { RemoveFromBasketButton } from '@features/basket-button/ui/remove-basket-button';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
   productId: string;
   className?: string;
 }
 
-export const BasketButton = ({ productId, className }: Props) => {
-  const handleClick = () => {
-    console.log(`Add to basket: ${productId}`);
-  };
+export const BasketButton = observer(({ productId }: Props) => {
+  const item = basketStore.items.find((i) => i.productId === productId);
+  const lineItemId = item?.id ?? null;
 
-  return (
-    <Button onClick={handleClick} className={className} variant="subtle">
-      <img src={BasketIcon} alt="Basket icon" className={styles.basket} />
-    </Button>
-  );
-};
+  return lineItemId ? <RemoveFromBasketButton lineItemId={lineItemId} /> : <AddToBasketButton productId={productId} />;
+});

@@ -1,4 +1,5 @@
 import { userStore } from '@entities/user/model/user-store';
+import { BasketLink } from '@features/basket-link/basket-link';
 import { buildAnonymousClient } from '@shared/api/client/build-anonymous-client';
 import { Paths } from '@shared/types/routerTypes';
 import { observer } from 'mobx-react-lite';
@@ -7,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import IconArrow from '../../assets/arrow.svg';
-import IconBasket from '../../assets/basket.svg';
+// import IconBasket from '../../assets/basket.svg';
 import IconLogout from '../../assets/logout-icon.svg';
 import IconProfile from '../../assets/profile-icon.svg';
 import style from './header-user-actions.module.css';
@@ -27,9 +28,10 @@ export const HeaderUserActions = observer(() => {
 
   return (
     <div className={style['user-controls']}>
-      <Link to={Paths.Basket} className={style['button-link']}>
+      {/* <Link to={Paths.Basket} className={style['button-link']}>
         <img className={style.basket} src={IconBasket} alt="Basket" />
-      </Link>
+      </Link> */}
+      <BasketLink />
 
       {user ? (
         <div className={style.profile}>

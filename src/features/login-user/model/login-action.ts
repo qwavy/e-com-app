@@ -1,9 +1,17 @@
+import { associateAnonymousCartWithUser } from '@entities/basket/get-basket-items';
 import { userStore } from '@entities/user/model/user-store';
 import { buildCustomerClient } from '@shared/api/client/build-customer-client';
 
-export const loginAction = async (email: string, password: string) => {
+export const loginAction = async (email: string, password: string, anonymousCartId?: string) => {
   try {
-    const { customer, accessToken, refreshToken } = await buildCustomerClient({ email: email, password: password });
+    if (anonymousCartId) {
+      await associateAnonymousCartWithUser({ email, password, anonymousCartId });
+    }
+
+    const { customer, accessToken, refreshToken, basket } = await buildCustomerClient({
+      email: email,
+      password: password,
+    });
     userStore.setUser(customer);
 
     return {
@@ -11,6 +19,7 @@ export const loginAction = async (email: string, password: string) => {
       customer,
       accessToken,
       refreshToken,
+      basket,
     };
   } catch (error) {
     return {

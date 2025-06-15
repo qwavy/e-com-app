@@ -1,3 +1,5 @@
+import { basketStore } from '@entities/basket/basket-store';
+import { userStore } from '@entities/user/model/user-store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Anchor, Button, PasswordInput, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -25,8 +27,10 @@ export const LoginForm = () => {
     mode: 'onChange',
   });
 
-  const login: SubmitHandler<FormFields> = async (data) => {
-    const response = await loginAction(data.email, data.password);
+  const login: SubmitHandler<FormFields> = async ({ email, password }) => {
+    const anonCartId = basketStore.basket?.id;
+    const response = await loginAction(email, password, anonCartId);
+
     if (response.error) {
       notifications.show({
         position: 'top-center',
@@ -36,6 +40,17 @@ export const LoginForm = () => {
         color: 'red',
       });
     } else {
+      const { customer, basket } = response;
+
+      if (customer) {
+        userStore.setUser(customer);
+      }
+
+      if (basket) {
+        basketStore.setBasket(basket);
+        basketStore.setItems(basket.lineItems);
+      }
+
       notifications.show({
         position: 'top-center',
         autoClose: 3000,
