@@ -1,5 +1,8 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder, Customer } from '@commercetools/platform-sdk';
+import type { Cart as Basket } from '@commercetools/platform-sdk';
+import { basketStore } from '@entities/basket/basket-store';
+import { createCustomerBasket } from '@entities/basket/get-basket-items';
 import { CLIENT_ID, CLIENT_SECRET, OAUTH_URL, PROJECT_KEY, scope } from '@shared/constants/constants';
 
 import { createClientBuilder } from '../base/client-builder';
@@ -15,6 +18,7 @@ export interface CustomerClientResult {
   accessToken: string;
   refreshToken?: string;
   api: ByProjectKeyRequestBuilder;
+  basket?: Basket;
 }
 
 function clearAccessTokenKeepRefresh() {
@@ -86,6 +90,11 @@ export async function buildCustomerClient(options: LoginOptions): Promise<Custom
   };
 
   apiStore.setApi(apiWithTokens);
+
+  const basket = await createCustomerBasket();
+  console.log('Customer basket', basket);
+
+  basketStore.setBasket(basket);
 
   return {
     customer: customerResponse.body,

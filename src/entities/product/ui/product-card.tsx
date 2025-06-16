@@ -1,11 +1,11 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
+import { BasketButton } from '@features/basket-button/index';
 import { Button, Card, Group, Image, Text } from '@mantine/core';
 import { Paths } from '@shared/types/routerTypes';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ActiveFavoriteIcon from '../assets/active-favorite.svg';
-import CartIcon from '../assets/cart.svg';
 import FavoriteIcon from '../assets/favorite.svg';
 import styles from './ProductCard.module.css';
 import { ProductPrice } from './product-price';
@@ -51,13 +51,7 @@ export const ProductCard = ({ product }: Props) => {
       />
 
       <Group grow>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <img src={CartIcon} alt="Cart icon" />
-        </Button>
+        <BasketButton productId={product.id} className={styles.basket} />
         <Button
           onClick={(e) => {
             e.stopPropagation();
