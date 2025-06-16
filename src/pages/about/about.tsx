@@ -1,3 +1,5 @@
+import { About } from '@widgets/about';
+
 export const AboutPage = () => {
-  return <h2>About Us Page</h2>;
+  return <About />;
 };
